@@ -89,6 +89,38 @@
               var pageTracker = _gat._getTracker("UA-65376431-1");
             pageTracker._trackPageview();
             } catch(err) {}
+            <script src="jquery.js" type="text/javascript"></script>
+
+      $(function(){
+       getTotalPV();
+    });
+    function getTotalPV()
+    {
+        $.ajax({ 
+            url:"http://cloud.bmob.cn/1cf19cbebb0bdf1a/getTotalPV", 
+            dataType:'jsonp', 
+            data:'', 
+            jsonp:'callback', 
+            success:function(result) { 
+                   //result.results[0].totalPV
+               $('#lb_count').html(result.results[0].totalPV);
+               //更新次数
+               setTotalPV();
+            }     
+        });    
+    }  
+    function setTotalPV()
+    {
+      $.ajax({ 
+            url:"http://cloud.bmob.cn/1cf19cbebb0bdf1a/setTotalPV", 
+            dataType:'jsonp', 
+            data:'', 
+            jsonp:'callback', 
+            success:function(result) {               
+            }     
+        });
+    }
+
           </script>
   </body>
 
