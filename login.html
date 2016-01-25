@@ -4,17 +4,23 @@ login
 </head>
 <body>
 <div id="userInfo">
-<td>user</td>
-<input type="text" id="userId" value="abc"></input>
+<td>user</td><input type="text" id="userId" value="Id"></input>
+<td>user</td><input type="text" id="userPass" value="Pass"></input>
+<td>user</td><input type="text" id="userEmail" value="Email"></input>
+<td>user</td><input type="text" id="userTel" value="Tel"></input>
+<input type="button" onclick="sign();">Sign</input>
 </div>
+
 <script>
+function sign(){
+  
 var user = new Bmob.User();
-user.set("username", "my name");
-user.set("password", "my pass");
-user.set("email", "email@example.com");
+user.set("username", document.getElementById("userId").value);
+user.set("password", document.getElementById("userPass").value);
+user.set("email", document.getElementById("userEmail").value);
 
 // other fields can be set just like with Bmob.Object
-user.set("phone", "415-392-0202");
+user.set("phone", document.getElementById("userTel").value);
 
 user.signUp(null, {
   success: function(user) {
@@ -25,6 +31,8 @@ user.signUp(null, {
     alert("Error: " + error.code + " " + error.message);
   }
 });
+
+}
 </script>
 </body>
 </html>
