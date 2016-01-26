@@ -62,7 +62,7 @@ query.equalTo("password", document.getElementById("userPass").value);
 query.find({
     success: function(results) {
         if(results.length == "1"){console.log("login success!");}
-        else(console.log("login failed!");)
+        else{console.log("login failed!");}
         
         /*alert("共查询到 " + results.length + " 条记录");
         // 循环处理查询到的数据
