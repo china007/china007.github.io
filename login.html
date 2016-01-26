@@ -13,6 +13,7 @@
 <tr><td>电话</td><td><input type="text" id="userTel" value="Tel"></input></td></tr>
 <tr><td><input type="button" onclick="sign();" value="注册"></input></td>
 <td><input type="button" onclick="login();" value="登陆"></input></td></tr>
+<td><input type="button" onclick="login();" value="登陆2"></input></td></tr>
 </table>
 
 
@@ -37,8 +38,19 @@ user.save(null, {
     alert("Error: " + error.code + " " + error.message);
   }
 });
-
-
+}
+function login2(){
+  Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
+  Bmob.User.logIn("myname", "mypass", {
+  success: function(user) {
+    console.log("login2 success!")
+    // Do stuff after successful login.
+  },
+  error: function(user, error) {
+    console.log("login2 failed!")
+    // The login failed. Check error to see why.
+  }
+});
 }
 function login(){
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
@@ -49,15 +61,19 @@ query.equalTo("password", document.getElementById("userPass").value);
 // 查询所有数据
 query.find({
     success: function(results) {
-        alert("共查询到 " + results.length + " 条记录");
+        if(results.length == "1"){console.log("login success!");}
+        else(console.log("login failed!");)
+        
+        /*alert("共查询到 " + results.length + " 条记录");
         // 循环处理查询到的数据
         for (var i = 0; i < results.length; i++) {
         var object = results[i];
         alert(object.id + ' - ' + object.get('username'));
-        }
+        }*/
     },
     error: function(error) {
-        alert("查询失败: " + error.code + " " + error.message);
+        console.log("login failed!");
+        alert("用户名或密码不正确！");
     }
 });
 }
