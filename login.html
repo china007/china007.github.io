@@ -17,7 +17,29 @@
 
 
 <script>
-function sign(){
+
+    function sign()
+    {
+        $.ajax({ 
+            url:'https://api.bmob.cn/1/users', 
+            headers:{'X-Bmob-Application-Id':'4733f138065d979e5bea5a43bd4bdf0a',
+                     'X-Bmob-REST-API-Key':'e78ae2b9cf7e63e9066f6336a6822a1c'},
+            dataType:'application/json', 
+            data:{"username":document.getElementById("userId").value,"password":document.getElementById("userPass").value,"phone":document.getElementById("userTel").value}', 
+            //jsonp:'callback', 
+            success:function(result) { 
+                console.log("sign success!");
+                   //result.results[0].totalPV
+            //   $('#lb_count').html(result.results[0].totalPV);
+            //   //更新次数
+            //   setTotalPV();
+            }     
+        });    
+    }  
+    
+function sign2(){
+
+
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 var user = new Bmob.User();
 user.set("username", document.getElementById("userId").value);
