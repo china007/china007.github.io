@@ -42,7 +42,7 @@ margin:30px auto 0;
 
 .send .rightArrow {
 position:absolute;
-top:5px;
+top:7px;
 right:-16px; /* 圆角的位置需要细心调试哦 */
 width:0;
 height:0;
@@ -52,7 +52,7 @@ border-color:#4D4948 #4D4948 #4D4948 #F8C301;
 }
 .send .Leftarrow {
 position:absolute;
-top:5px;
+top:7px;
 left:-16px; /* 圆角的位置需要细心调试哦 */
 width:0;
 height:0;
