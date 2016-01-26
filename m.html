@@ -81,7 +81,7 @@
       		if (tablename == "Chat") {
       			// alert(tablename);
       			var content = $("#data");
-      			var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> ' + data.content + '</p><br/>';
+      			var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="arrow"></div>' + data.content + '</div></p><br/>';
       			content.html(p + content.html());
       		}
       	};
