@@ -13,7 +13,6 @@
 <tr><td>电话</td><td><input type="text" id="userTel" value="Tel"></input></td></tr>
 <tr><td><input type="button" onclick="sign();" value="注册"></input></td>
 <td><input type="button" onclick="login();" value="登陆"></input></td></tr>
-<td><input type="button" onclick="login2();" value="登陆2"></input></td></tr>
 </table>
 
 
@@ -39,19 +38,7 @@ user.save(null, {
   }
 });
 }
-function login2(){
-  Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
-  Bmob.User.logIn("myname", "mypass", {
-  success: function(user) {
-    console.log("login2 success!")
-    // Do stuff after successful login.
-  },
-  error: function(user, error) {
-    console.log("login2 failed!")
-    // The login failed. Check error to see why.
-  }
-});
-}
+
 function login(){
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 var UserInfo = Bmob.Object.extend("_User");
