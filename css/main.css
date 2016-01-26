@@ -50,7 +50,7 @@ font-size:0;
 border:solid 8px;
 border-color:#4D4948 #4D4948 #4D4948 #F8C301;
 }
-.send .Leftarrow {
+.send .leftArrow {
 position:absolute;
 top:7px;
 left:-16px; /* 圆角的位置需要细心调试哦 */
