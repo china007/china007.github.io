@@ -8,8 +8,7 @@
 		if (/Android (\d+\.\d+)/.test(ua)) {
 			var version = parseFloat(RegExp.$1);
 			if (version > 2.3) {
-				document.write('<meta name="viewport" content="width=320, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ',
-				target-densitydpi=device-dpi">');
+				document.write('<meta name="viewport" content="width=320, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ',target-densitydpi=device-dpi">');
 			} else {
 				document.write('<meta name="viewport" content="width=320, target-densitydpi=device-dpi">');
 			}
@@ -113,7 +112,7 @@
 		    for (var i = 0; i < results.length; i++) {
 		      	var data = results[i];
     			var content = $("#data");
-      			var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> ' + data.get('content') + '</p><br/>';
+      			var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="arrow">' + data.get('content') + '</div></div></p><br/>';
       			content.html(p + content.html());
 		      	//alert(object.id + ' - ' + object.get('playerName'));
 		    }
