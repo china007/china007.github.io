@@ -24,7 +24,7 @@ user.set("email", document.getElementById("userEmail").value);
 // other fields can be set just like with Bmob.Object
 user.set("phone", document.getElementById("userTel").value);
 
-user.signUp(null, {
+user.save(null, {
   success: function(user) {
     // Hooray! Let them use the app now.
   },
