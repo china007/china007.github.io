@@ -112,7 +112,7 @@
 		    for (var i = 0; i < results.length; i++) {
 		      	var data = results[i];
     			var content = $("#data");
-      			var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> ' + data.content + '</p><br/><br/>';
+      			var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.get('createdAt') + '</span>  ' + ' :<br/> ' + data.get('content') + '</p><br/><br/>';
       			content.html(p + content.html());
 		      	//alert(object.id + ' - ' + object.get('playerName'));
 		    }
