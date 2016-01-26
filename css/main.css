@@ -2,6 +2,7 @@
 body{font-family:tahoma; font-size:12px;margin:10px;background:#4D4948;}
 p {line-height:18px;padding:2px;}
 div {width:500px;}
+
 #content { 
     padding:5px; 
     background:#ddd; 
@@ -61,4 +62,41 @@ border:solid 8px;
 border-color:#4D4948 #F8C301 #4D4948 #4D4948;
 }
 
-
+/*头部固定*/
+html, body {
+    height:100%;
+    margin:0;
+    padding:0
+}
+#dHead {
+    height:100px;
+    line-height:100px;
+    background:#690;
+    width:100%;
+    position:absolute;
+    z-index:5;
+    top:0;
+    text-align:center;
+}
+#dBody {
+    background:#FC0;
+    width:100%;
+    overflow:auto;
+    top:100px;
+    position:absolute;
+    z-index:10;
+    bottom:100px;
+}
+.mycontent {
+    padding:20px;
+}
+#dFoot {
+    height:100px;
+    line-height:100px;
+    background:#690;
+    width:100%;
+    position:absolute;
+    z-index:200;
+    bottom:0;
+    text-align:center;
+}
