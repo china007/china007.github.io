@@ -27,6 +27,7 @@ user.set("phone", document.getElementById("userTel").value);
 user.save(null, {
   success: function(user) {
     // Hooray! Let them use the app now.
+    console.log("success");
   },
   error: function(user, error) {
     // Show the error message somewhere and let the user try again.
