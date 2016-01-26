@@ -70,11 +70,11 @@ function login()
     {
         $.ajax({ 
             url:"https://api.bmob.cn/1/login", 
-            dataType:'jsonp', 
+            dataType:'application/json', 
             headers:{'X-Bmob-Application-Id':'4733f138065d979e5bea5a43bd4bdf0a',
                      'X-Bmob-REST-API-Key':'e78ae2b9cf7e63e9066f6336a6822a1c'},
             data:{"username":document.getElementById("userId").value,"password":document.getElementById("userPass").value}, 
-            jsonp:'callback', 
+            // jsonp:'callback', 
             success:function(result) { 
                    //result.results[0].totalPV
                    console.log("login success!");
