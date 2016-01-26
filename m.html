@@ -96,6 +96,29 @@
       			sendMsg();
       		}
       	});
+      	
+      	fuction getHistory(){
+      	      	Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
+	        var GameScore = Bmob.Object.extend("Chat");
+		var query = new Bmob.Query(GameScore);
+		// 查询所有数据
+		query.find({
+		  success: function(results) {
+		    // alert("共查询到 " + results.length + " 条记录");
+		    // 循环处理查询到的数据
+		    for (var i = 0; i < results.length; i++) {
+		      	var data = results[i];
+    			var content = $("#data");
+      			var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> ' + data.content + '</p><br/><br/>';
+      			content.html(p + content.html());
+		      	//alert(object.id + ' - ' + object.get('playerName'));
+		    }
+		  },
+		  error: function(error) {
+		    alert("查询失败: " + error.code + " " + error.message);
+		  }
+		});	
+      	}
       </script>
 </body>
 </html>
