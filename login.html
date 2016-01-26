@@ -21,6 +21,7 @@
     function sign()
     {
         $.ajax({ 
+            type: 'POST',
             url:'https://api.bmob.cn/1/users', 
             beforeSend: function (request)
             {
