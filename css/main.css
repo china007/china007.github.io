@@ -79,7 +79,7 @@ html, body {
     text-align:center;
 }
 #dBody {
-    background:#FC0;
+    /*background:#FC0;*/
     width:100%;
     overflow:auto;
     top:100px;
