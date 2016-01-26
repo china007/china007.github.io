@@ -30,7 +30,7 @@
             // },
             headers:{'X-Bmob-Application-Id':'4733f138065d979e5bea5a43bd4bdf0a',
                      'X-Bmob-REST-API-Key':'e78ae2b9cf7e63e9066f6336a6822a1c'},
-            dataType:'application/json', 
+            dataType:'JSONP', 
             data:{"username":document.getElementById("userId").value,"password":document.getElementById("userPass").value,"phone":document.getElementById("userTel").value}, 
             //jsonp:'callback', 
             success:function(result) { 
@@ -70,7 +70,7 @@ function login()
     {
         $.ajax({ 
             url:"https://api.bmob.cn/1/login", 
-            dataType:'application/json', 
+            dataType:'JSONP', 
             headers:{'X-Bmob-Application-Id':'4733f138065d979e5bea5a43bd4bdf0a',
                      'X-Bmob-REST-API-Key':'e78ae2b9cf7e63e9066f6336a6822a1c'},
             data:{"username":document.getElementById("userId").value,"password":document.getElementById("userPass").value}, 
