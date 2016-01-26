@@ -43,7 +43,7 @@ margin:30px auto 0;
 .send .arrow {
 position:absolute;
 top:5px;
-right:-16px; /* 圆角的位置需要细心调试哦 */
+left:16px; /* 圆角的位置需要细心调试哦 */
 width:0;
 height:0;
 font-size:0;
