@@ -1,0 +1,29 @@
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+
+			<link rel="stylesheet" type="text/css" href="css/main.css">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+		<script src="javascripts/mootools/mootools-core-1.4.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="javascripts/mootools/mootools-more-1.4.0.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="javascripts/nakedPassword.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+	<body>
+	<table>
+		<tr><td>用户名</td><td><input type="text" id="userId" placeholder="Id"></input></td></tr>
+		<tr><td>密码</td><td><input type="password" id="userPass" placeholder="パースワード"></input></td></tr>
+		<tr><td>邮箱</td><td><input type="text" id="userEmail" placeholder="sample@abc.com"></input></td></tr>
+		<tr><td>电话</td><td><input type="text" id="userTel" placeholder="999-9999-9999"></input></td></tr>
+		<tr><td><input type="button" onclick="sign();" value="注册"></input></td>
+		<td><input type="button" onclick="login();" value="登陆"></input></td></tr>
+	</table>
+				
+	<script type="text/javascript">
+		$('userPass').nakedPassword();
+	</script>
+
+	</body>
+</html>

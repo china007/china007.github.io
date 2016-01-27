@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>NakedPassword example</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script src="javascripts/mootools/mootools-core-1.4.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="javascripts/mootools/mootools-more-1.4.0.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="javascripts/nakedPassword.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			label { font-size: 32px; font-weight: bold; }
+		</style>
+	</head>
+	<body>
+		<p>
+			
+				<input type="password" id="female" style="font-size: 50px">
+		</p>
+		
+		<p>
+			<label>Naked Password Male<br />
+				<input type="password" id="male" style="font-size: 50px"></label>
+		</p>
+		
+		<script type="text/javascript">
+			$("female").nakedPassword();
+			$("male").nakedPassword({sex: 'm'});
+		</script>
+	</body>
+</html>
