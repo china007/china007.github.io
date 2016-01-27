@@ -74,7 +74,7 @@ function getHistory(){
 			for (var i = 0; i < results.length; i++) {
 			    	var data = results[i];
 				var content = $("#data");
-				var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="rightArrow"></div>' + data.get('content') + '</div></p><br/>';
+				var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="rightArrow"></div>' + data.get('content') + '</div></p>';
 				content.html(content.html() + p);
 			    	//alert(object.id + ' - ' + object.get('playerName'));
 	  		}
