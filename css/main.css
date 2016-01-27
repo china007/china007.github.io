@@ -2,33 +2,58 @@
 body{font-family:tahoma; font-size:12px;margin:10px;background:#4D4948;}
 p {line-height:18px;padding:2px;}
 
+#leftDiv{
+height:100%;
+width:80%;
+float:left;
+}
+#rightDiv{
+height:100%;
+width:20%;
+float:left;
+}
 #content { 
-    padding:5px; 
+	height:100%;
+	width:100%;
     background:#ddd; 
-    border-radius:5px;
+	resize:none;
+    /*border-radius:2%;
     border:1px solid #CCC; 
-    margin-top:10px; 
+    /*margin-top:10px;*/
+	border:0px;
+}
+#nameDiv{
+	height:50%;
+	width:100%;
 }
 #name { 
-    padding:5px; 
+    /*padding:5px; */
+	width:100%;
     background:#ddd; 
     border-radius:5px;
     border:1px solid #CCC; 
-    margin-top:10px; 
+    /*margin-top:10px; */
 }
+#sendDiv{
+	height:50%;
+	width:100%;
+}
+#send { /*
+    width:70px;
+	height:30px;
+	height:50%;
+	width:80%;*/
+}
+
 #input { 
+
+/*
     border-radius:2px; 
     border:1px solid #ccc;
     margin-top:10px; 
-    padding:5px; 
-    width:380px;  
+    padding:5px;*/ 
 }
-#status { 
-    width:100px; 
-    display:block; 
-    float:left; 
-    margin-top:15px; 
-}
+
 
 /*聊天气泡*/
 .send {
@@ -68,8 +93,8 @@ html, body {
     padding:0
 }
 #dHead {
-    height:100px;
-    line-height:100px;
+    height:20px;
+    line-height:20px;
     background:#690;
     width:100%;
     position:absolute;
@@ -91,7 +116,7 @@ html, body {
 }
 #dFoot {
     height:100px;
-    line-height:100px;
+    /*line-height:100px;*/
     background:#690;
     width:100%;
     position:absolute;

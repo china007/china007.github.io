@@ -44,7 +44,7 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 		// alert(tablename);
 		var content = $("#data");
 		var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="leftArrow"></div>' + data.content + '</div></p><br/>';
-		content.html(p + content.html());
+		content.html(content.html() + p);
 	}
 };
 
@@ -75,7 +75,7 @@ function getHistory(){
 			    	var data = results[i];
 				var content = $("#data");
 				var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="rightArrow"></div>' + data.get('content') + '</div></p><br/>';
-				content.html(p + content.html());
+				content.html(content.html() + p);
 			    	//alert(object.id + ' - ' + object.get('playerName'));
 	  		}
 		},
