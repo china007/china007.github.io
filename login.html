@@ -13,15 +13,17 @@
 </head>
 <body>
 
+<form action ="./m.html" id="formRegister" method="POST">
 <table>
 <tr><td>用户名</td><td><input type="text" id="userId" placeholder="Id"></input></td></tr>
 <tr><td>密码</td><td><input type="password" id="userPass" placeholder="パースワード"></input></td></tr>
 <tr class="register" style="display:none"><td>邮箱</td><td><input type="text" id="userEmail" placeholder="sample@abc.com"></input></td></tr>
 <tr class="register" style="display:none"><td>电话</td><td><input type="text" id="userTel" placeholder="999-9999-9999"></input></td></tr>
-<tr><td><input type="button" onclick="userIdUniqueCheck();" value="注册"></input></td>
+<tr><td><input type="button" onclick="checkId();" value="注册"></input></td>
 <td class="login"><input type="button" onclick="login();" value="登陆"></input></td>
 <td class="register" style="display:none"><input type="button" onclick="back();" value="返回"></input></td></tr>
 </table>
+</form>
 
 
 <script type="text/javascript">

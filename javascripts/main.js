@@ -13,6 +13,20 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 	document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
 }
 
+//服务器
+BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
+Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
+//检查是否已登陆
+var currentUser = Bmob.User.current();
+if (currentUser) {
+	console.log("已登陆");
+	// do stuff with the user
+} else {
+	console.log("未登陆");
+	window.location.href='./login.html';
+	// show the signup or login page
+}
+
 function sendMsg() {
 
 	var name = $("#name").val();
@@ -39,9 +53,6 @@ function sendMsg() {
 	});
 }
 
-//服务器
-BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
-Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 
 //初始连接socket.io服务器后，需要监听的事件都写在这个函数内
 BmobSocketIo.onInitListen = function () {
@@ -96,3 +107,10 @@ function getHistory(){
 		}
 	});	
 }
+function logout(){
+	Bmob.User.logOut();
+	window.location.href='./login.html';
+}
+$( document ).ready(function() {
+	getHistory();
+});
