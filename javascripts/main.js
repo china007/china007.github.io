@@ -29,7 +29,8 @@ if (currentUser) {
 
 function sendMsg() {
 
-	var name = $("#name").val();
+	// var name = $("#name").val();
+	var name = Bmob.User.current().attributes.username;
 	var content = $("#content").val();
 
 	if ($.trim(name) == "") {
@@ -46,7 +47,8 @@ function sendMsg() {
 	var chat = new Chat();
 	chat.set("name", $("#name").val());
 	chat.set("content", $("#content").val());
-	//   $("#content").val("");
+		//清空消息
+		$("#content").val("");
 	chat.save(null, {
 		success : function (object) {},
 		error : function (model, error) {}
