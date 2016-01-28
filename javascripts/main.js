@@ -70,6 +70,7 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 		var content = $("#data");
 		var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="leftArrow"></div>' + data.content + '</div></p><br/>';
 		content.html(content.html() + p);
+		scollToEnd();
 	}
 };
 
@@ -101,6 +102,7 @@ function getHistory(){
 				var content = $("#data");
 				var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="rightArrow"></div>' + data.get('content') + '</div></p>';
 				content.html(content.html() + p);
+				scollToEnd();
 			    	//alert(object.id + ' - ' + object.get('playerName'));
 	  		}
 		},
@@ -113,3 +115,18 @@ function logout(){
 	Bmob.User.logOut();
 	window.location.href='./login.html';
 }
+
+function scollToEnd(){
+	// 通过深入 Document 内部对 body 进行检测，获取窗口大小
+	// if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth)
+	// {
+		// winHeight = document.documentElement.clientHeight;
+		// winWidth = document.documentElement.clientWidth;
+	// }
+	// window.scrollTo(0,winHeight-100);
+	var elem = document.getElementById('#data');
+	elem.scrollTop = elem.scrollHeight;
+}
+
+
+ 
