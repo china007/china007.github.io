@@ -124,8 +124,8 @@ function scollToEnd(){
 		// winWidth = document.documentElement.clientWidth;
 	// }
 	// window.scrollTo(0,winHeight-100);
-	var elem = document.getElementById('#data');
-	elem.scrollTop = elem.scrollHeight;
+	//var elem = document.getElementById('#data');
+	//elem.scrollTop = elem.scrollHeight;
 }
 
 
