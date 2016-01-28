@@ -23,7 +23,7 @@ if (currentUser) {
 	// do stuff with the user
 } else {
 	console.log("未登陆");
-	window.location.href='./login.html';
+	window.location.href='/login';
 	// show the signup or login page
 }
 
@@ -103,7 +103,7 @@ function getHistory(){
 	  		}
 		},
 		error: function(error) {
-	  		alert("查询失败: " + error.code + " " + error.message);
+	  		//alert("查询失败: " + error.code + " " + error.message);
 		}
 	});	
 }
@@ -111,6 +111,3 @@ function logout(){
 	Bmob.User.logOut();
 	window.location.href='./login.html';
 }
-$( document ).ready(function() {
-	getHistory();
-});
