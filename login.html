@@ -3,10 +3,10 @@
 	<meta charset="UTF-8">
 	
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-    <script src="javascripts/jquery.min.js"  type="text/javascript"></script>
 	<script src="javascripts/mootools/mootools-core-1.4.1.js" type="text/javascript" ></script>
 	<script src="javascripts/mootools/mootools-more-1.4.0.1.js" type="text/javascript"></script>
 	<script src="javascripts/nakedPassword.js" type="text/javascript" ></script>
+
     <script src="javascripts/login.js"  type="text/javascript"></script>
     <script src="javascripts/bmob.js"  type="text/javascript"></script>
     <script src="javascripts/bmobSocketIo.js"  type="text/javascript"></script>
@@ -16,105 +16,17 @@
 <table>
 <tr><td>用户名</td><td><input type="text" id="userId" placeholder="Id"></input></td></tr>
 <tr><td>密码</td><td><input type="password" id="userPass" placeholder="パースワード"></input></td></tr>
-<tr><td>邮箱</td><td><input type="text" id="userEmail" placeholder="sample@abc.com"></input></td></tr>
-<tr><td>电话</td><td><input type="text" id="userTel" placeholder="999-9999-9999"></input></td></tr>
-<tr><td><input type="button" onclick="sign();" value="注册"></input></td>
-<td><input type="button" onclick="login();" value="登陆"></input></td></tr>
+<tr class="register" style="display:none"><td>邮箱</td><td><input type="text" id="userEmail" placeholder="sample@abc.com"></input></td></tr>
+<tr class="register" style="display:none"><td>电话</td><td><input type="text" id="userTel" placeholder="999-9999-9999"></input></td></tr>
+<tr><td><input type="button" onclick="userIdUniqueCheck();" value="注册"></input></td>
+<td class="login"><input type="button" onclick="login();" value="登陆"></input></td>
+<td class="register" style="display:none"><input type="button" onclick="back();" value="返回"></input></td></tr>
 </table>
 
 
 <script type="text/javascript">
-	document.getElementById("userPass").nakedPassword();
-	
-	function sign()
-	{
-		$.ajax({ 
-			type: 'POST',
-			url:'https://api.bmob.cn/1/users', 
-			// beforeSend: function (request)
-			// {
-			//     request.setRequestHeader("X-Bmob-Application-Id:4733f138065d979e5bea5a43bd4bdf0a");
-			//     request.setRequestHeader("X-Bmob-REST-API-Key:e78ae2b9cf7e63e9066f6336a6822a1c");
-			// },
-			headers:{'X-Bmob-Application-Id':'4733f138065d979e5bea5a43bd4bdf0a',
-					 'X-Bmob-REST-API-Key':'e78ae2b9cf7e63e9066f6336a6822a1c'},
-			dataType:'application/json', 
-			data:{"username":document.getElementById("userId").value,"password":document.getElementById("userPass").value,"phone":document.getElementById("userTel").value}, 
-			//jsonp:'callback', 
-			success:function(result) { 
-				console.log("sign success!");
-				   //result.results[0].totalPV
-			//   $('#lb_count').html(result.results[0].totalPV);
-			//   //更新次数
-			//   setTotalPV();
-			}     
-		});    
-	}
-    
-	function sign2(){
-		Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
-		var user = new Bmob.User();
-		user.set("username", document.getElementById("userId").value);
-		user.set("password", document.getElementById("userPass").value);
-		user.set("email", document.getElementById("userEmail").value);
-
-		// other fields can be set just like with Bmob.Object
-		user.set("phone", document.getElementById("userTel").value);
-
-		user.save(null, {
-		  success: function(user) {
-			// Hooray! Let them use the app now.
-			console.log("success");
-		  },
-		  error: function(user, error) {
-			// Show the error message somewhere and let the user try again.
-			alert("Error: " + error.code + " " + error.message);
-		  }
-		});
-	}
-	function login()
-		{
-			$.ajax({ 
-				url:"https://api.bmob.cn/1/login", 
-				dataType:'JSONP', 
-				headers:{'X-Bmob-Application-Id':'4733f138065d979e5bea5a43bd4bdf0a',
-						 'X-Bmob-REST-API-Key':'e78ae2b9cf7e63e9066f6336a6822a1c'},
-				data:{"username":document.getElementById("userId").value,"password":document.getElementById("userPass").value}, 
-				// jsonp:'callback', 
-				success:function(result) { 
-					   //result.results[0].totalPV
-					   console.log("login success!");
-				//   $('#lb_count').html(result.results[0].totalPV);
-				//   //更新次数
-				//   setTotalPV();
-				}     
-			});    
-		}  
-	function login2(){
-		Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
-		var UserInfo = Bmob.Object.extend("_User");
-		var query = new Bmob.Query(UserInfo);
-		query.equalTo("username", document.getElementById("userId").value); 
-		query.equalTo("password", document.getElementById("userPass").value); 
-		// 查询所有数据
-		query.find({
-			success: function(results) {
-				if(results.length == "1"){console.log("login success!");}
-				else{console.log("login failed!");}
-				
-				/*alert("共查询到 " + results.length + " 条记录");
-				// 循环处理查询到的数据
-				for (var i = 0; i < results.length; i++) {
-				var object = results[i];
-				alert(object.id + ' - ' + object.get('username'));
-				}*/
-			},
-			error: function(error) {
-				console.log("login failed!");
-				alert("用户名或密码不正确！");
-			}
-		});
-	}
+	//密码强度⇒奖励
+	$("userPass").nakedPassword();
 </script>
 </body>
 </html>
