@@ -29,7 +29,7 @@ width:30px;height:30px;
 	padding:2px;
 }
 #nameDiv{
-        disable:none;
+        display:none;
 	height:50%;
 	width:100%;
 }
