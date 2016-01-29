@@ -2,6 +2,10 @@
 	width:100%;
 }
 
+img{
+width:30px;height:30px;
+}
+
 #leftDiv{
 	height:100%;
 	width:85%;
@@ -69,7 +73,7 @@
 .send {
 	white-space:normal;
 	position:relative;
-	max-width:77%;
+	max-width:80%;
 	background:#F8C301;
 	border-radius:5px; /* 圆角 */
 	margin:5px auto 0;
@@ -79,11 +83,11 @@
 	min-height:18px;
 	/*字边距*/
 	padding:2px 2px 2px 2px;
-	margin-left:12px;
+	margin-left:11px;
 	float:left;
 }
 .historyRight{
-	margin-right:12px;
+	margin-right:11px;
 	float:right;
 }
 .send .rightArrow {
