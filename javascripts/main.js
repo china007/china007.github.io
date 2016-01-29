@@ -124,7 +124,7 @@ function scollToEnd(){
 		// winWidth = document.documentElement.clientWidth;
 	// }
 	// window.scrollTo(0,winHeight-100);
-	var elem = document.getElementById('data');
+	var elem = document.getElementById('dBody');
 	elem.scrollTop = elem.scrollHeight;
 }
 
