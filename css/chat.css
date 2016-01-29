@@ -60,6 +60,12 @@
 
 
 /*聊天气泡*/
+/*聊天头像*/
+.headImg{
+	width:30px;
+	height:30px;
+	float:left;
+}
 .send {
 	white-space:normal;
 	position:relative;
@@ -73,8 +79,13 @@
 	min-height:18px;
 	/*字边距*/
 	padding:2px 2px 2px 2px;
+	margin-left:12px;
+	float:left;
 }
-
+.historyRight{
+margin-right:12px;
+float:right;
+}
 .send .rightArrow {
 	position:absolute;
 	top:5px;

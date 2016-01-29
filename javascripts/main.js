@@ -30,7 +30,7 @@ if (currentUser) {
 function sendMsg() {
 
 	// var name = $("#name").val();
-	var name = Bmob.User.current().attributes.username;
+	var name = currentUser.attributes.username;
 	var content = $("#content").val();
 
 	if ($.trim(name) == "") {
@@ -64,11 +64,15 @@ BmobSocketIo.onInitListen = function () {
 
 //监听服务器返回的更新表的数据
 BmobSocketIo.onUpdateTable = function (tablename, data) {
-
+	var name = currentUser.attributes.username;
 	if (tablename == "Chat") {
 		// alert(tablename);
 		var content = $("#data");
-		var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="leftArrow"></div>' + data.content + '</div></p><br/>';
+		if(data.name==name){
+			var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/><div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.content + '</div></div></p><br>';
+		}else{
+			var p = '<p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/><div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:left;"><div class="send"><div class="leftArrow"></div>' + data.content + '</div></div></p><br>';
+		}
 		content.html(content.html() + p);
 		scollToEnd();
 	}
@@ -90,6 +94,7 @@ $('#content').keydown(function (e) {
 	
 //取得历史消息
 function getHistory(){
+	var name = currentUser.attributes.username;
 	var Chat = Bmob.Object.extend("Chat");
 	var query = new Bmob.Query(Chat);
 	query.ascending('createdAt');
@@ -99,9 +104,10 @@ function getHistory(){
 			// alert("共查询到 " + results.length + " 条记录");
 			// 循环处理查询到的数据
 			for (var i = 0; i < results.length; i++) {
-			    	var data = results[i];
+			    var data = results[i];
 				var content = $("#data");
-				var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div class="send"><div class="rightArrow"></div>' + data.get('content') + '</div></p>';
+				if(data.get('name')==name){
+				var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:left;"><div class="send"><div class="rightArrow"></div>' + data.get('content') + '</div></div></p><br>';}
 				content.html(content.html() + p);
 				scollToEnd();
 			    	//alert(object.id + ' - ' + object.get('playerName'));
