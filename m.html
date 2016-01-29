@@ -40,8 +40,13 @@
 		$('#name').val( Bmob.User.current().attributes.username);
 		
 		//禁用浏览器触摸滑动效果
-		document.querySelector('body').addEventListener('touchmove', function (ev) {
-//			event.preventDefault();
+		//document.querySelector('body').addEventListener('touchmove', function (ev) {
+			//event.preventDefault();
+		//});
+
+		$('body').on('touchmove', selScrollable, function(e) {
+			// Only block default if internal div contents are large enough to scroll
+			// Warning: scrollHeight support is not universal. (http://stackoverflow.com/a/15033226/40352)
 			if($(this)[0].scrollHeight > $(this).innerHeight()) {
 				e.stopPropagation();
 			}
