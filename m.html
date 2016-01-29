@@ -44,13 +44,9 @@
 			//event.preventDefault();
 		//});
 
-		$('body').on('touchmove', selScrollable, function(e) {
-			// Only block default if internal div contents are large enough to scroll
-			// Warning: scrollHeight support is not universal. (http://stackoverflow.com/a/15033226/40352)
-			if($(this)[0].scrollHeight > $(this).innerHeight()) {
-				e.stopPropagation();
-			}
-		});
+		 $('body').on('touchmove', function (e) {
+				 if (!$('.scrollable').has($(e.target)).length) e.preventDefault();
+		 });
 	});
 	</script>
 </body>
