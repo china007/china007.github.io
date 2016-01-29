@@ -1,7 +1,7 @@
 /** {padding:0px; margin:0px;}*/
 body{font-family:tahoma; font-size:12px;margin:10px;background:#4D4948;}
 p {line-height:18px;padding:2px;margin:0px;}
-html,body{height:100%;overflow:hidden;}
+
 td{
 color:#ddd;
 }
@@ -10,6 +10,10 @@ label { font-size: 32px; font-weight: bold; }
 
 input{
 background:#ddd; 
+}
+input[type=button]{
+margin-top:10px;
+height:25px;
 }
 
 .center{

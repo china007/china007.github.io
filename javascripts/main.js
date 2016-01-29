@@ -88,9 +88,10 @@ $('#content').keydown(function (e) {
 	}
 });
 	
+//取得历史消息
 function getHistory(){
-	var GameScore = Bmob.Object.extend("Chat");
-	var query = new Bmob.Query(GameScore);
+	var Chat = Bmob.Object.extend("Chat");
+	var query = new Bmob.Query(Chat);
 	query.ascending('createdAt');
 	// 查询所有数据
 	query.find({
@@ -111,19 +112,15 @@ function getHistory(){
 		}
 	});	
 }
+
+//注销
 function logout(){
 	Bmob.User.logOut();
 	window.location.href='./login.html';
 }
 
+//新消息滚动
 function scollToEnd(){
-	// 通过深入 Document 内部对 body 进行检测，获取窗口大小
-	// if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth)
-	// {
-		// winHeight = document.documentElement.clientHeight;
-		// winWidth = document.documentElement.clientWidth;
-	// }
-	// window.scrollTo(0,winHeight-100);
 	var elem = document.getElementById('dBody');
 	elem.scrollTop = elem.scrollHeight;
 }
