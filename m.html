@@ -32,9 +32,20 @@
 	</div>
 	<script>
 	$( document ).ready(function() {
+		//取得历史消息
 		getHistory();
+		
+		//显示用户名
 		document.getElementById('nameView').innerHTML= Bmob.User.current().attributes.username;
 		$('#name').val( Bmob.User.current().attributes.username);
+		
+		//禁用浏览器触摸滑动效果
+		document.querySelector('body').addEventListener('touchmove', function (ev) {
+//			event.preventDefault();
+			if($(this)[0].scrollHeight > $(this).innerHeight()) {
+				e.stopPropagation();
+			}
+		});
 	});
 	</script>
 </body>
