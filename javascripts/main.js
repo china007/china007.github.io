@@ -109,7 +109,7 @@ function getHistory(){
 				if(data.get('name')==name){
 					var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.get('content') + '</div></div></p><br>';
 				}else{
-					var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:left;"><div class="send"><div class="rightArrow"></div>' + data.get('content') + '</div></div></p><br>';
+					var p = '<p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:left;"><div class="send"><div class="leftArrow"></div>' + data.get('content') + '</div></div></p><br>';
 				}
 				content.html(content.html() + p);
 				scollToEnd();
