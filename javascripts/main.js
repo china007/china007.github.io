@@ -18,9 +18,11 @@ BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 //检查是否已登陆
 var currentUser = Bmob.User.current();
+
 if (currentUser) {
 	console.log("已登陆");
-	// do stuff with the user
+	// 取得userId
+	var userId = currentUser.id;
 } else {
 	console.log("未登陆");
 	window.location.href='/login';
@@ -47,8 +49,9 @@ function sendMsg() {
 	var chat = new Chat();
 	chat.set("name", $("#name").val());
 	chat.set("content", $("#content").val());
-		//清空消息
-		$("#content").val("");
+	chat.set("userId",userId);
+	//清空消息
+	$("#content").val("");
 	chat.save(null, {
 		success : function (object) {},
 		error : function (model, error) {}
@@ -68,15 +71,43 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 	if (tablename == "Chat") {
 		// alert(tablename);
 		var content = $("#data");
+		var p = '<br><p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/><div> <img class="'+ data.userId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 		if(data.name==name){
-			var p = '<br><p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/><div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.content + '</div></div></p><br>';
+			 p += 'style="width:30px;height:30px;float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.content + '</div></div></p><br>';
 		}else{
-			var p = '<br><p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/><div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="width:30px;height:30px;float:left;"><div class="send"><div class="leftArrow"></div>' + data.content + '</div></div></p><br>';
+			 p += 'style="width:30px;height:30px;float:left;"><div class="send"><div class="leftArrow"></div>' + data.content + '</div></div></p><br>';
 		}
 		content.html(content.html() + p);
+		getImgUrl(data.userId);
 		scollToEnd();
 	}
 };
+
+//取得用户图片URL地址
+function getImgUrl(id){
+	var UserInfo = Bmob.Object.extend("_User");
+	var query = new Bmob.Query(UserInfo);
+	query.equalTo("objectId", id); 
+	// 查询邮箱
+	query.find({
+		success: function(results) {
+				if(results.length == "1"){
+					$("."+id).each(function(index,element){
+						element.src = results[0].get("img");
+						element.class="";
+					});
+				}
+				else{
+					console.log("取得用户图片地址错误");
+					return "";
+				}
+			},
+			error: function(error) {
+				alert("Error: " + error.code + " " + error.message);
+				return "";
+			}
+		});
+}
 
 //通过“回车”提交聊天信息
 $('#name').keydown(function (e) {
@@ -106,15 +137,17 @@ function getHistory(){
 			for (var i = 0; i < results.length; i++) {
 			    var data = results[i];
 				var content = $("#data");
+				var p = '<br><p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img class="'+ data.get('userId')+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 				if(data.get('name')==name){
-					var p = '<br><p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.get('content') + '</div></div></p><br>';
+					p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.get('content') + '</div></div></p><br>';
 				}else{
-					var p = '<br><p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif" style="float:left;"><div class="send"><div class="leftArrow"></div>' + data.get('content') + '</div></div></p><br>';
+					p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + data.get('content') + '</div></div></p><br>';
 				}
 				content.html(content.html() + p);
-				scollToEnd();
-			    	//alert(object.id + ' - ' + object.get('playerName'));
+				getImgUrl(data.get('userId'));
+			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
+			scollToEnd();
 		},
 		error: function(error) {
 	  		//alert("查询失败: " + error.code + " " + error.message);
