@@ -1,127 +1,37 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<script src="javascripts/mootools/mootools-core-1.4.1.js" type="text/javascript" ></script>
+	<script src="javascripts/mootools/mootools-more-1.4.0.1.js" type="text/javascript"></script>
+	<script src="javascripts/nakedPassword.js" type="text/javascript" ></script>
 
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js" type="text/javascript"></script>
-    <title>かくの個人ページ</title>
-  </head>
+    <script src="javascripts/login.js"  type="text/javascript"></script>
+    <script src="javascripts/bmob.js"  type="text/javascript"></script>
+    <script src="javascripts/bmobSocketIo.js"  type="text/javascript"></script>
+</head>
+<body>
+<div class="center">
+<form action ="./chat.html" id="formRegister" method="GET">
+<table>
+<tr><td>用户名</td><td><input type="text" id="userId" placeholder="Id"></input></td></tr>
+<tr><td>密码</td><td><input type="password" id="userPass" placeholder="パースワード"></input></td></tr>
+<tr class="register" style="display:none"><td>邮箱</td><td><input type="text" id="userEmail" placeholder="sample@abc.com"></input></td></tr>
+<tr class="register" style="display:none"><td>电话</td><td><input type="text" id="userTel" placeholder="999-9999-9999"></input></td></tr>
+</table>
 
-  <body>
-    <a id="forkme_banner" href="https://github.com/china007">View on かく</a>
-    
-    <div class="shell">
+<input type="button" onclick="checkId();" value="注册"></input>
+<input class="login" type="button" onclick="login();" value="登陆"></input>
+<input class="register" type="button" onclick="back();" value="返回" style="display:none"></input>
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>かくの個人ページ</h1>
-            <h2></h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+</form>
+</div>
 
-      <div id="no-downloads">
-        <span class="inner">
-        </span>
-      </div>
-
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to My Pages.</h3>
-
-<a href="http://wpa.qq.com/msgrd?v=3&uin=396141419&site=qq&menu=yes"><img src="/images/kefu.png" alt="QQ沟通"></a>
-<a href="http://wpa.qq.com/msgrd?v=3&uin=396141419&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1175602713:41" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
-<p style="font-size:16px;font-weight:bold;color:#FF7256;">恭喜您！您是第<label id="lb_count">0</label>个访问者！</p>
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub for Mac or GitHub for Windows, simply sync your repository and you’ll see the new branch.</p>
-
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
-
-<h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating pages manually</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
-      </section>
-
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>Projects by <a href="https://github.com/china007">china007</a> can be found on <a href="https://github.com/china007">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="https://pages.github.com">かくPages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
-
-    </div>
-          <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-65376431-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-
-
-      $(function(){
-       getTotalPV();
-    });
-    function getTotalPV()
-    {
-        $.ajax({ 
-            url:"http://cloud.bmob.cn/4a73ccebc581da82/getTotalPV", 
-            dataType:'jsonp', 
-            data:'', 
-            jsonp:'callback', 
-            success:function(result) { 
-                   //result.results[0].totalPV
-               $('#lb_count').html(result.results[0].totalPV);
-               //更新次数
-               setTotalPV();
-            }     
-        });    
-    }  
-    function setTotalPV()
-    {
-      $.ajax({ 
-            url:"http://cloud.bmob.cn/4a73ccebc581da82/setTotalPV", 
-            dataType:'jsonp', 
-            data:'', 
-            jsonp:'callback', 
-            success:function(result) {               
-            }     
-        });
-    }
-
-          </script>
-  </body>
-
+<script type="text/javascript">
+	//密码强度⇒福利
+	$("userPass").nakedPassword();
+</script>
+</body>
 </html>

@@ -25,7 +25,7 @@ if (currentUser) {
 	var userId = currentUser.id;
 } else {
 	console.log("未登陆");
-	window.location.href='/login';
+	window.location.href='./';
 	// show the signup or login page
 }
 
@@ -141,7 +141,7 @@ function getHistory(){
 //注销
 function logout(){
 	Bmob.User.logOut();
-	window.location.href='./login.html';
+	window.location.href='./';
 }
 
 //新消息滚动
@@ -162,12 +162,12 @@ function getTime(dateStr){
 
 /**
  * 比较两个指定格式的日期字符串，并返回整数形式的比较结果。
- * 如果返回正数，则日期dateStr1较大(靠后)；
- * 如果返回负数，则日期dateStr2较大；
- * 如果返回0，则两者相等。 
+ * 返回值:
+ *       true : 消息间隔大于3分钟
+ *       false : 消息间隔小于3分钟
  * @param {String} date1
  * @param {String} date2
- * @return {Number} 
+ * @return {boolean} 
  */
 function compareDate(dateStr1, dateStr2){
     return (getTime(dateStr1) - getTime(dateStr2)) > 180000;
