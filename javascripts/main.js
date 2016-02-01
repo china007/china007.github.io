@@ -48,7 +48,8 @@ function sendMsg() {
 	var Chat = Bmob.Object.extend("Chat");
 	var chat = new Chat();
 	chat.set("name", $("#name").val());
-	chat.set("content", $("#content").val());
+	//消息添加换行
+	chat.set("content", $("#content").val().replace(/\n/g, "<br/>"));
 	chat.set("userId",userId);
 	//清空消息
 	$("#content").val("");
@@ -184,7 +185,7 @@ function getMsg(senderId,sendTime,sendContent){
 	if(compareDate(sendTime,lastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
-	p += '<div> <img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
+	p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 	if(senderId==userId){
 		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></p><br>';
 	}else{

@@ -11,9 +11,14 @@ label { font-size: 32px; font-weight: bold; }
 input{
 background:#ddd; 
 }
+
 input[type=button]{
 margin-top:10px;
 height:25px;
+}
+
+input[type=password]{
+width:100%;
 }
 
 .center{

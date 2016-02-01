@@ -77,18 +77,18 @@ width:30px;height:30px;
 	max-width:80%;
 	background:#F8C301;
 	border-radius:5px; /* 圆角 */
-	margin:5px auto 0;
+	margin:1px auto 0;
 	word-break: break-all;
 	word-wrap: break-word;
 	height:auto;
 	min-height:18px;
 	/*字边距*/
 	padding:2px 2px 2px 2px;
-	margin-left:11px;
+	margin-left:12px;
 	float:left;
 }
 .historyRight{
-	margin-right:11px;
+	margin-right:12px;
 	float:right;
 }
 .send .rightArrow {
