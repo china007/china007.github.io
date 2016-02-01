@@ -18,7 +18,7 @@ BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 //检查是否已登陆
 var currentUser = Bmob.User.current();
-
+var lastTime ="";
 if (currentUser) {
 	console.log("已登陆");
 	// 取得userId
@@ -69,14 +69,23 @@ BmobSocketIo.onInitListen = function () {
 BmobSocketIo.onUpdateTable = function (tablename, data) {
 	var name = currentUser.attributes.username;
 	if (tablename == "Chat") {
-		// alert(tablename);
 		var content = $("#data");
-		var p = '<br><p><span style="color:red;">' + data.name + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/><div> <img class="'+ data.userId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
-		if(data.name==name){
-			 p += 'style="width:30px;height:30px;float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.content + '</div></div></p><br>';
-		}else{
-			 p += 'style="width:30px;height:30px;float:left;"><div class="send"><div class="leftArrow"></div>' + data.content + '</div></div></p><br>';
+		
+		var p = '<br>';
+		if(lastTime == ""){
+			lastTime = data.createdAt;
+			p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
 		}
+		if(compareDate(data.createdAt,lastTime)){
+			p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
+		}
+		p += '<div> <img class="'+ data.userId+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
+		if(data.name==name){
+			p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.content + '</div></div></p><br>';
+		}else{
+			p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + data.content + '</div></div></p><br>';
+		}
+		lastTime = data.createdAt;
 		content.html(content.html() + p);
 		getImgUrl(data.userId);
 		scollToEnd();
@@ -137,12 +146,21 @@ function getHistory(){
 			for (var i = 0; i < results.length; i++) {
 			    var data = results[i];
 				var content = $("#data");
-				var p = '<br><p><span style="color:red;">' + data.get('name') + '</span>  ' + '<span style="color:green;">' + data.createdAt + '</span>  ' + ' :<br/> <div> <img class="'+ data.get('userId')+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
+				var p = '<br>';
+				if(i == 0){
+					lastTime = data.createdAt;
+					p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
+				}
+				if(compareDate(data.createdAt,lastTime)){
+					p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
+				}
+				p += '<div> <img class="'+ data.get('userId')+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 				if(data.get('name')==name){
 					p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.get('content') + '</div></div></p><br>';
 				}else{
 					p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + data.get('content') + '</div></div></p><br>';
 				}
+				lastTime = data.createdAt;
 				content.html(content.html() + p);
 				getImgUrl(data.get('userId'));
 			    //alert(object.id + ' - ' + object.get('playerName'));
@@ -167,5 +185,26 @@ function scollToEnd(){
 	elem.scrollTop = elem.scrollHeight;
 }
 
+/**
+ * 接收2012-04-09或2012-4-9格式的字符串，并返回该日期与1970年1月1日 00:00:00的毫秒差值
+ * @param {String} dateStr
+ * @return {Number} 
+ */
+function getTime(dateStr){
+    dateStr = dateStr.replace("-", "/");
+    return Date.parse(dateStr);
+}
 
+/**
+ * 比较两个指定格式的日期字符串，并返回整数形式的比较结果。
+ * 如果返回正数，则日期dateStr1较大(靠后)；
+ * 如果返回负数，则日期dateStr2较大；
+ * 如果返回0，则两者相等。 
+ * @param {String} date1
+ * @param {String} date2
+ * @return {Number} 
+ */
+function compareDate(dateStr1, dateStr2){
+    return (getTime(dateStr1) - getTime(dateStr2)) > 180000;
+}
  
