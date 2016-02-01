@@ -77,7 +77,7 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 			p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
 		}
 		if(compareDate(data.createdAt,lastTime)){
-			p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
+			p += '<span style="color:green;display:block;text-align:center">' + data.createdAt + '</span>';
 		}
 		p += '<div> <img class="'+ data.userId+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 		if(data.name==name){
@@ -152,7 +152,7 @@ function getHistory(){
 					p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
 				}
 				if(compareDate(data.createdAt,lastTime)){
-					p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
+					p += '<span style="color:green;display:block;text-align:center">' + data.createdAt + '</span>';
 				}
 				p += '<div> <img class="'+ data.get('userId')+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 				if(data.get('name')==name){
