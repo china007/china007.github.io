@@ -69,25 +69,7 @@ BmobSocketIo.onInitListen = function () {
 BmobSocketIo.onUpdateTable = function (tablename, data) {
 	var name = currentUser.attributes.username;
 	if (tablename == "Chat") {
-		var content = $("#data");
-		
-		var p = '<br>';
-		if(lastTime == ""){
-			lastTime = data.createdAt;
-			p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
-		}
-		if(compareDate(data.createdAt,lastTime)){
-			p += '<span style="color:green;display:block;text-align:center">' + data.createdAt + '</span>';
-		}
-		p += '<div> <img class="'+ data.userId+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
-		if(data.name==name){
-			p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.content + '</div></div></p><br>';
-		}else{
-			p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + data.content + '</div></div></p><br>';
-		}
-		lastTime = data.createdAt;
-		content.html(content.html() + p);
-		getImgUrl(data.userId);
+		getMsg(data.userId, data.createdAt, data.content);
 		scollToEnd();
 	}
 };
@@ -145,24 +127,7 @@ function getHistory(){
 			// 循环处理查询到的数据
 			for (var i = 0; i < results.length; i++) {
 			    var data = results[i];
-				var content = $("#data");
-				var p = '<br>';
-				if(i == 0){
-					lastTime = data.createdAt;
-					p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
-				}
-				if(compareDate(data.createdAt,lastTime)){
-					p += '<span style="color:green;display:block;text-align:center">' + data.createdAt + '</span>';
-				}
-				p += '<div> <img class="'+ data.get('userId')+'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
-				if(data.get('name')==name){
-					p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + data.get('content') + '</div></div></p><br>';
-				}else{
-					p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + data.get('content') + '</div></div></p><br>';
-				}
-				lastTime = data.createdAt;
-				content.html(content.html() + p);
-				getImgUrl(data.get('userId'));
+				getMsg(data.get('userId'), data.createdAt, data.get('content'));
 			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
 			scollToEnd();
@@ -208,3 +173,24 @@ function compareDate(dateStr1, dateStr2){
     return (getTime(dateStr1) - getTime(dateStr2)) > 180000;
 }
  
+//消息拼接
+function getMsg(senderId,sendTime,sendContent){
+	var content = $("#data");
+	var p = '<br>';
+	if(lastTime == ""){
+		lastTime = sendTime;
+		p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
+	}
+	if(compareDate(sendTime,lastTime)){
+		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
+	}
+	p += '<div> <img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
+	if(senderId==userId){
+		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></p><br>';
+	}else{
+		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + sendContent + '</div></div></p><br>';
+	}
+	lastTime = sendTime;
+	content.html(content.html() + p);
+	getImgUrl(senderId);
+}
