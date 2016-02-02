@@ -177,7 +177,8 @@ function compareDate(dateStr1, dateStr2){
 //消息拼接
 function getMsg(senderId,sendTime,sendContent){
 	var content = $("#data");
-	var p = '<br>';
+	//clear: bothを指定すればfloatによる回り込みをキャンセル出来ます。
+	var p = '<div style="clear:both"><br>';
 	if(lastTime == ""){
 		lastTime = sendTime;
 		p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
@@ -189,7 +190,7 @@ function getMsg(senderId,sendTime,sendContent){
 	if(senderId==userId){
 		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></p><br>';
 	}else{
-		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + sendContent + '</div></div></p><br>';
+		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + sendContent + '</div></div></p><br></div>';
 	}
 	lastTime = sendTime;
 	content.html(content.html() + p);
