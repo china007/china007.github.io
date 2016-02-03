@@ -20,6 +20,9 @@ height:25px;
 input[type=password]{
 width:100%;
 }
+input[type=text]{
+width:100%;
+}
 
 .center{
 position:fixed;left:50%;top:50%;margin-left:-115;margin-top:-65; text-align: center;
