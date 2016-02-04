@@ -1,23 +1,41 @@
 <html>  
 <head>   
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
-  <script>   
-    function RequestPermission (callback) {  
-      window.webkitNotifications.requestPermission(callback);  
-    }  
-  
-    function showNotification(){  
-      if (window.webkitNotifications.checkPermission() > 0) {  
-        RequestPermission(showNotification);  
-      }  
-      else {  
-              window.webkitNotifications.createNotification("http://tp3.sinaimg.cn/1883935250/50/0/1", "这里写标题",   
-          "其实以后这个程序会被广泛使用于邮箱和网页游戏中。").show();   
-      }  
-    }  
-        </script>
+	<script type="text/javascript">
+					function notifyMe() {
+	  // Let's check if the browser supports notifications
+	  if (!("Notification" in window)) {
+		alert("This browser does not support desktop notification");
+	  }
+
+	  // Let's check whether notification permissions have already been granted
+	  else if (Notification.permission === "granted") {
+		// If it's okay let's create a notification
+		var notification = new Notification("Hi there!");
+	  }
+
+	  // Otherwise, we need to ask the user for permission
+	  else if (Notification.permission !== 'denied') {
+		Notification.requestPermission(function (permission) {
+		  // If the user accepts, let's create a notification
+		  if (permission === "granted") {
+			var notification = new Notification("Hi there!");
+		  }
+		});
+	  }
+
+	  // At last, if the user has denied notifications, and you 
+	  // want to be respectful there is no need to bother them any more.
+	} Notification.requestPermission(); function spawnNotification(theBody,theIcon,theTitle) {
+	  var options = {
+		  body: theBody,
+		  icon: theIcon
+	  }
+	  var n = new Notification(theTitle,options);
+	}
+				</script>
 </head>   
 <body>   
-        <button onclick="showNotification()">Show Notification</button>   
+        <button onclick="notifyMe()">Notify me!</button>   
 </body>  
 </html>  
