@@ -1,18 +1,23 @@
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<head> 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<title>test</title> 
-</head> 
-<body> 
-<div>
-	<div>time1</div>
-	<div style="float:right">2</div>
-	<div style="float:right">3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/>3<br/></div> 
-</div>
-<div style="clear: both">
-	<div>time2</div>
-	<div style="float:left">4</div> 
-	<div style="float:left">5</div> 
-</div> 
-</body> 
-</html> 
+<html>  
+<head>   
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
+  <script>   
+    function RequestPermission (callback) {  
+      window.webkitNotifications.requestPermission(callback);  
+    }  
+  
+    function showNotification(){  
+      if (window.webkitNotifications.checkPermission() > 0) {  
+        RequestPermission(showNotification);  
+      }  
+      else {  
+              window.webkitNotifications.createNotification("http://tp3.sinaimg.cn/1883935250/50/0/1", "这里写标题",   
+          "其实以后这个程序会被广泛使用于邮箱和网页游戏中。").show();   
+      }  
+    }  
+        </script>
+</head>   
+<body>   
+        <button onclick="showNotification()">Show Notification</button>   
+</body>  
+</html>  

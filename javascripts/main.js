@@ -48,9 +48,16 @@ function sendMsg() {
 	var Chat = Bmob.Object.extend("Chat");
 	var chat = new Chat();
 	chat.set("name", $("#name").val());
+notify();	
 	//消息添加换行
 	chat.set("content", $("#content").val().replace(/\n/g, "<br/>"));
 	chat.set("userId",userId);
+	
+	//用户读取权限控制
+	var json = {"*":{"read":true}};
+	json[userId] ={"read":true,"write":true};
+	chat.set("ACL",json);
+	
 	//清空消息
 	$("#content").val("");
 	chat.save(null, {
@@ -195,4 +202,21 @@ function getMsg(senderId,sendTime,sendContent){
 	lastTime = sendTime;
 	content.html(content.html() + p);
 	getImgUrl(senderId);
+}
+
+/**
+* 浏览器消息提醒（chrome）
+*/
+function notify(){
+	var opt = {
+	type: "list",
+	title: "桌面提醒",
+	message: "msg",
+	iconUrl: "icon128.png",
+	items: [{ title: "1.", message: "下班了"},
+	{ title: "2.", message: "吃饭了."},
+	{ title: "3.", message: "中奖了."}]};
+	chrome.notifications.create('',opt,function(id){
+		
+	});
 }
