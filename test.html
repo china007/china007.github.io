@@ -4,15 +4,14 @@
 <script type="text/javascript">
 	function notifyMe() {
 	  // Let's check if the browser supports notifications
-	  /*if (!("Notification" in window)) {
+	  if (!("Notification" in window)) {
 		alert("This browser does not support desktop notification");
 	  }
 
 	  // Let's check whether notification permissions have already been granted
-	  else*/ if (Notification.permission === "granted") {
+	  else if (Notification.permission === "granted") {
 		// If it's okay let's create a notification
-		//spawnNotification('Text','https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif','Title');
-		alert("1");
+		var notification = new Notification("Hi there!");
 	  }
 
 	  // Otherwise, we need to ask the user for permission
@@ -20,17 +19,14 @@
 		Notification.requestPermission(function (permission) {
 		  // If the user accepts, let's create a notification
 		  if (permission === "granted") {
-			//spawnNotification('Text','https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif','Title');
-		alert("2");
+			var notification = new Notification("Hi there!");
 		  }
 		});
 	  }
 
 	  // At last, if the user has denied notifications, and you 
 	  // want to be respectful there is no need to bother them any more.
-	} 
-	//Notification.requestPermission(); 
-	function spawnNotification(theBody,theIcon,theTitle) {
+	}Notification.requestPermission();function spawnNotification(theBody,theIcon,theTitle) {
 	  var options = {
 		  body: theBody,
 		  icon: theIcon
