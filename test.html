@@ -4,12 +4,12 @@
 <script type="text/javascript">
 	function notifyMe() {
 	  // Let's check if the browser supports notifications
-	  if (!("Notification" in window)) {
+	  /*if (!("Notification" in window)) {
 		alert("This browser does not support desktop notification");
 	  }
 
 	  // Let's check whether notification permissions have already been granted
-	  else if (Notification.permission === "granted") {
+	  else*/ if (Notification.permission === "granted") {
 		// If it's okay let's create a notification
 		spawnNotification('Text','https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif','Title');
 	  }
