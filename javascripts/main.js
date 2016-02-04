@@ -78,6 +78,7 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 	var name = currentUser.attributes.username;
 	if (tablename == "Chat") {
 		getMsg(data.userId, data.createdAt, data.content);
+		notify(data.content,getImgUrl(data.userId),data.userId + data.createdAt);
 		scollToEnd();
 	}
 };
@@ -87,14 +88,10 @@ function getImgUrl(id){
 	var UserInfo = Bmob.Object.extend("_User");
 	var query = new Bmob.Query(UserInfo);
 	query.equalTo("objectId", id); 
-	// 查询邮箱
 	query.find({
 		success: function(results) {
 				if(results.length == "1"){
-					$("."+id).each(function(index,element){
-						element.src = results[0].get("img");
-						element.class="";
-					});
+					return results[0].get("img");
 				}
 				else{
 					console.log("取得用户图片地址错误");
@@ -106,6 +103,14 @@ function getImgUrl(id){
 				return "";
 			}
 		});
+}
+
+//替换用户头像
+function changeImg(imgUrl){
+	$("."+id).each(function(index,element){
+		element.src = imgUrl;
+		element.class="";
+	});
 }
 
 //通过“回车”提交聊天信息
@@ -201,22 +206,50 @@ function getMsg(senderId,sendTime,sendContent){
 	}
 	lastTime = sendTime;
 	content.html(content.html() + p);
-	getImgUrl(senderId);
+	changeImg(getImgUrl(senderId));
 }
 
 /**
-* 浏览器消息提醒（chrome）
-*/
-function notify(){
-	var opt = {
-	type: "list",
-	title: "桌面提醒",
-	message: "msg",
-	iconUrl: "icon128.png",
-	items: [{ title: "1.", message: "下班了"},
-	{ title: "2.", message: "吃饭了."},
-	{ title: "3.", message: "中奖了."}]};
-	chrome.notifications.create('',opt,function(id){
-		
-	});
-}
+ * 浏览器消息提醒（chrome）
+ * @param {String} 内容
+ * @param {String} 头像
+ * @param {String} 标题
+ */
+function notify(theBody,theIcon,theTitle){
+	// Let's check if the browser supports notifications
+	if (!("Notification" in window)) {
+		// alert("This browser does not support desktop notification");
+		console.lgo("This browser does not support desktop notification");
+	}
+	// Let's check whether notification permissions have already been granted
+	else {
+		if (Notification.permission === "granted") {
+			// If it's okay let's create a notification
+			// var notification = new Notification("Hi there!");
+			spawnNotification(theBody,theIcon,theTitle);
+		}
+
+		// Otherwise, we need to ask the user for permission
+		else if (Notification.permission !== 'denied') {
+			Notification.requestPermission(function (permission) {
+				// If the user accepts, let's create a notification
+				if (permission === "granted") {
+					// var notification = new Notification("Hi there!");
+					spawnNotification(theBody,theIcon,theTitle);
+				}
+			});
+		}
+	}
+	  // At last, if the user has denied notifications, and you 
+	  // want to be respectful there is no need to bother them any more.
+	} 
+//获取消息提醒权限
+Notification.requestPermission(); 
+function spawnNotification(theBody,theIcon,theTitle) {
+	  var options = {
+		  body: theBody,
+		  icon: theIcon
+	  }
+	  var n = new Notification(theTitle,options);
+	}
+	
