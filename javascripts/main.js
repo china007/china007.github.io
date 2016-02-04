@@ -29,6 +29,31 @@ if (currentUser) {
 	// show the signup or login page
 }
 
+var userList={};
+getUserList();
+/** 
+ * 查询所有用户
+ */
+function getUserList(){
+	var UserInfo = Bmob.Object.extend("_User");
+	var queryName = new Bmob.Query(UserInfo);
+	queryName.find({
+			success: function(results) {
+				if(results.length > "0"){
+					for (i in results) {
+						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username")};
+					}
+				}
+				else{
+					console.log("没有用户信息");
+				}
+			},
+			error: function(error) {
+				alert("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
 function sendMsg() {
 
 	// var name = $("#name").val();
@@ -48,7 +73,7 @@ function sendMsg() {
 	var Chat = Bmob.Object.extend("Chat");
 	var chat = new Chat();
 	chat.set("name", $("#name").val());
-notify();	
+	notify();	
 	//消息添加换行
 	chat.set("content", $("#content").val().replace(/\n/g, "<br/>"));
 	chat.set("userId",userId);
@@ -77,11 +102,11 @@ BmobSocketIo.onInitListen = function () {
 BmobSocketIo.onUpdateTable = function (tablename, data) {
 	if (tablename == "Chat") {
 		getMsg(data.userId, data.createdAt, data.content);
-		notify(data.content,getImgUrl(data.userId),data.userId + data.createdAt);
+		notify(data.content,userList[data.userId].img,data.name + data.createdAt.substring(11));
 		scollToEnd();
 	}
 };
-
+/*
 //取得用户图片URL地址
 function getImgUrl(id){
 	var UserInfo = Bmob.Object.extend("_User");
@@ -111,6 +136,7 @@ function changeImg(id,imgUrl){
 		element.class="";
 	});
 }
+*/
 
 //通过“回车”提交聊天信息
 $('#name').keydown(function (e) {
@@ -197,7 +223,11 @@ function getMsg(senderId,sendTime,sendContent){
 	if(compareDate(sendTime,lastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
-	p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
+	if(userList[senderId].img != ""){
+		p += '<div><img class="'+ senderId +'" src="'+userList[senderId].img+'"';
+	}else{
+		p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
+	}
 	if(senderId==userId){
 		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></p><br>';
 	}else{
@@ -205,7 +235,7 @@ function getMsg(senderId,sendTime,sendContent){
 	}
 	lastTime = sendTime;
 	content.html(content.html() + p);
-	changeImg(senderId,getImgUrl(senderId));
+	// changeImg(senderId,getImgUrl(senderId));
 }
 
 /**
