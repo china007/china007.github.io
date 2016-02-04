@@ -15,8 +15,6 @@
 </head>
 <body>
 	<div id="dHead">
-	<label id="nameView" style="font-size:15px"></label>
-	<input type="button" onclick="logout();" style="float:right;height:20px" value="注销">
 	</div>
 	<div id="dBody">
 	<div id="mycontent">
@@ -32,13 +30,13 @@
 	</div>
 	<script>
 	$( document ).ready(function() {
-		//取得历史消息
+/*		//取得历史消息
 		getHistory();
 		
 		//显示用户名
 		document.getElementById('nameView').innerHTML= Bmob.User.current().attributes.username;
 		$('#name').val( Bmob.User.current().attributes.username);
-		
+	*/	
 		//禁用浏览器触摸滑动效果
 		//document.querySelector('body').addEventListener('touchmove', function (ev) {
 			//event.preventDefault();

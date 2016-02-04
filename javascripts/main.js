@@ -1,4 +1,6 @@
-//自适应各种手机模式
+/**
+ *自适应各种手机模式
+ */
 var phoneWidth = parseInt(window.screen.width);
 var phoneScale = phoneWidth / 320;
 var ua = navigator.userAgent;
@@ -11,6 +13,26 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 	}
 } else {
 	document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
+}
+
+
+$(function() {
+	//取得历史消息
+	getHistory();
+});
+
+/**
+ * 显示好友tab
+ */
+function showFrindTab(){
+	var innerStr="";
+	for(var k in userList){
+		if(k!=userId){
+			innerStr+='<span id="'+k+'" style="font-size:15px"><a href="#" onclick="alert()">'+userList[k].name+'</a></span>&nbsp;&nbsp'
+		}
+	}
+	innerStr+='<input type="button" onclick="logout();" style="float:right;height:20px" value="注销">';
+	document.getElementById('dHead').innerHTML=innerStr;
 }
 
 //服务器
@@ -43,6 +65,7 @@ function getUserList(){
 					for (i in results) {
 						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username")};
 					}
+					showFrindTab();
 				}
 				else{
 					console.log("没有用户信息");
@@ -55,15 +78,14 @@ function getUserList(){
 }
 
 function sendMsg() {
-
 	// var name = $("#name").val();
-	var name = currentUser.attributes.username;
+	// var name = currentUser.attributes.username;
 	var content = $("#content").val();
 
-	if ($.trim(name) == "") {
-		alert("昵称不能为空！");
-		return;
-	}
+	// if ($.trim(name) == "") {
+		// alert("昵称不能为空！");
+		// return;
+	// }
 
 	if ($.trim(content) == "") {
 		alert("内容不能为空！");
@@ -72,12 +94,12 @@ function sendMsg() {
 
 	var Chat = Bmob.Object.extend("Chat");
 	var chat = new Chat();
-	chat.set("name", $("#name").val());
+	// chat.set("name", $("#name").val());
 
 	//消息添加换行
 	var content = $("#content").val().replace(/\n/g, "<br/>");
 	chat.set("content", content);
-	chat.set("userId",userId);
+	chat.set("sendFrom",userId);
 	
 	//用户读取权限控制
 	var json = {"*":{"read":true}};
@@ -95,7 +117,6 @@ function sendMsg() {
 	scollToEnd();
 }
 
-
 //初始连接socket.io服务器后，需要监听的事件都写在这个函数内
 BmobSocketIo.onInitListen = function () {
 	//订阅GameScore表的数据更新事件
@@ -106,13 +127,14 @@ BmobSocketIo.onInitListen = function () {
 BmobSocketIo.onUpdateTable = function (tablename, data) {
 	if (tablename == "Chat") {
 		// 不是自己发送的消息则显示提示
-		if(data.userId!=userId){
-			getMsg(data.userId, data.createdAt, data.content);
+		if(data.sendFrom!=userId){
+			getMsg(data.sendFrom, data.createdAt, data.content);
 			scollToEnd();
-			notify(data.content,userList[data.userId].img,data.name + data.createdAt.substring(11));
+			notify(data.content,userList[data.sendFrom].img,data.name + data.createdAt.substring(11));
 		}
 	}
 };
+
 /*
 //取得用户图片URL地址
 function getImgUrl(id){
@@ -172,7 +194,7 @@ function getHistory(){
 			// 循环处理查询到的数据
 			for (var i = 0; i < results.length; i++) {
 			    var data = results[i];
-				getMsg(data.get('userId'), data.createdAt, data.get('content'));
+				getMsg(data.get('sendFrom'), data.createdAt, data.get('content'));
 			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
 			scollToEnd();
@@ -230,8 +252,8 @@ function getMsg(senderId,sendTime,sendContent){
 	if(compareDate(sendTime,lastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
-	if(userList.length != 0 && userList[senderId] != null && userList[senderId].img != null){
-		p += '<div><img class="'+ senderId +'" src="'+userList[senderId].img+'"';
+	if(userList.length != 0 && userList[senderId] != null && userList[senderId].img != null && userList[senderId].img != ""){
+		p += '<div><img src="'+userList[senderId].img+'"';
 	}else{
 		p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 	}
