@@ -94,7 +94,7 @@ width:30px;height:30px;
 .send .rightArrow {
 	position:absolute;
 	top:5px;
-	right:-12.4px; /* 圆角的位置需要细心调试哦 */
+	right:-12px; /* 圆角的位置需要细心调试哦 */
 	width:0;
 	height:0;
 	font-size:0;
@@ -104,7 +104,7 @@ width:30px;height:30px;
 .send .leftArrow {
 	position:absolute;
 	top:5px;
-	left:-12.4px; /* 圆角的位置需要细心调试哦 */
+	left:-12px; /* 圆角的位置需要细心调试哦 */
 	width:0;
 	height:0;
 	font-size:0;
