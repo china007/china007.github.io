@@ -49,7 +49,7 @@ function getUserList(){
 				}
 			},
 			error: function(error) {
-				alert("Error: " + error.code + " " + error.message);
+				console.log("Error: " + error.code + " " + error.message);
 			}
 		});
 }
@@ -75,7 +75,8 @@ function sendMsg() {
 	chat.set("name", $("#name").val());
 
 	//消息添加换行
-	chat.set("content", $("#content").val().replace(/\n/g, "<br/>"));
+	var content = $("#content").val().replace(/\n/g, "<br/>");
+	chat.set("content", content);
 	chat.set("userId",userId);
 	
 	//用户读取权限控制
@@ -89,6 +90,9 @@ function sendMsg() {
 		success : function (object) {},
 		error : function (model, error) {}
 	});
+	
+	getMsg(userId, getNowFormatDate(), content);
+	scollToEnd();
 }
 
 
@@ -101,12 +105,12 @@ BmobSocketIo.onInitListen = function () {
 //监听服务器返回的更新表的数据
 BmobSocketIo.onUpdateTable = function (tablename, data) {
 	if (tablename == "Chat") {
-		getMsg(data.userId, data.createdAt, data.content);
 		// 不是自己发送的消息则显示提示
 		if(data.userId!=userId){
+			getMsg(data.userId, data.createdAt, data.content);
+			scollToEnd();
 			notify(data.content,userList[data.userId].img,data.name + data.createdAt.substring(11));
 		}
-		scollToEnd();
 	}
 };
 /*
@@ -174,7 +178,7 @@ function getHistory(){
 			scollToEnd();
 		},
 		error: function(error) {
-	  		//alert("查询失败: " + error.code + " " + error.message);
+	  		console.log("查询失败: " + error.code + " " + error.message);
 		}
 	});	
 }
@@ -226,15 +230,15 @@ function getMsg(senderId,sendTime,sendContent){
 	if(compareDate(sendTime,lastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
-	if(userList[senderId].img != ""){
+	if(userList.length != 0 && userList[senderId] != null && userList[senderId].img != null){
 		p += '<div><img class="'+ senderId +'" src="'+userList[senderId].img+'"';
 	}else{
 		p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
 	}
 	if(senderId==userId){
-		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></p><br>';
+		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></div>';
 	}else{
-		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + sendContent + '</div></div></p><br></div>';
+		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + sendContent + '</div></div></div>';
 	}
 	lastTime = sendTime;
 	content.html(content.html() + p);
@@ -284,4 +288,24 @@ function spawnNotification(theBody,theIcon,theTitle) {
 	  }
 	  var n = new Notification(theTitle,options);
 	}
-	
+
+	/**
+	 * 获取本地时间
+	*/
+function getNowFormatDate() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+    return currentdate;
+}
