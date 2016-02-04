@@ -1,38 +1,19 @@
 <html>  
 <head>   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
+    <script src="javascripts/jquery.min.js"></script>
 <script type="text/javascript">
-	function notifyMe() {
-	  // Let's check if the browser supports notifications
-	  if (!("Notification" in window)) {
-		alert("This browser does not support desktop notification");
+var time=1;
+$.ajax({
+	 url: '',
+	type: 'get',
+	success: function (data, status, xhr) {             
+		 var str = xhr.getResponseHeader('Date');  //获取Response Header里面的Date
+                 var date = new Date(str).getTime(); //把Date转换成时间对象
+		 time=date;
+		 alert(time);  //输出时间戳
 	  }
-
-	  // Let's check whether notification permissions have already been granted
-	  else if (Notification.permission === "granted") {
-		// If it's okay let's create a notification
-		var notification = new Notification("Hi there!");
-	  }
-
-	  // Otherwise, we need to ask the user for permission
-	  else if (Notification.permission !== 'denied') {
-		Notification.requestPermission(function (permission) {
-		  // If the user accepts, let's create a notification
-		  if (permission === "granted") {
-			var notification = new Notification("Hi there!");
-		  }
-		});
-	  }
-
-	  // At last, if the user has denied notifications, and you 
-	  // want to be respectful there is no need to bother them any more.
-	}Notification.requestPermission();function spawnNotification(theBody,theIcon,theTitle) {
-	  var options = {
-		  body: theBody,
-		  icon: theIcon
-	  }
-	  var n = new Notification(theTitle,options);
-	}
+});
 	</script>
 </head>   
 <body>   
