@@ -102,7 +102,10 @@ BmobSocketIo.onInitListen = function () {
 BmobSocketIo.onUpdateTable = function (tablename, data) {
 	if (tablename == "Chat") {
 		getMsg(data.userId, data.createdAt, data.content);
-		notify(data.content,userList[data.userId].img,data.name + data.createdAt.substring(11));
+		// 不是自己发送的消息则显示提示
+		if(data.userId!=userId){
+			notify(data.content,userList[data.userId].img,data.name + data.createdAt.substring(11));
+		}
 		scollToEnd();
 	}
 };
