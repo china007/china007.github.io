@@ -75,7 +75,6 @@ BmobSocketIo.onInitListen = function () {
 
 //监听服务器返回的更新表的数据
 BmobSocketIo.onUpdateTable = function (tablename, data) {
-	var name = currentUser.attributes.username;
 	if (tablename == "Chat") {
 		getMsg(data.userId, data.createdAt, data.content);
 		notify(data.content,getImgUrl(data.userId),data.userId + data.createdAt);
@@ -106,7 +105,7 @@ function getImgUrl(id){
 }
 
 //替换用户头像
-function changeImg(imgUrl){
+function changeImg(id,imgUrl){
 	$("."+id).each(function(index,element){
 		element.src = imgUrl;
 		element.class="";
@@ -206,7 +205,7 @@ function getMsg(senderId,sendTime,sendContent){
 	}
 	lastTime = sendTime;
 	content.html(content.html() + p);
-	changeImg(getImgUrl(senderId));
+	changeImg(senderId,getImgUrl(senderId));
 }
 
 /**
