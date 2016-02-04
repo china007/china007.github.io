@@ -11,7 +11,8 @@
 	  // Let's check whether notification permissions have already been granted
 	  else*/ if (Notification.permission === "granted") {
 		// If it's okay let's create a notification
-		spawnNotification('Text','https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif','Title');
+		//spawnNotification('Text','https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif','Title');
+		alert("1");
 	  }
 
 	  // Otherwise, we need to ask the user for permission
@@ -19,7 +20,8 @@
 		Notification.requestPermission(function (permission) {
 		  // If the user accepts, let's create a notification
 		  if (permission === "granted") {
-			spawnNotification('Text','https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif','Title');
+			//spawnNotification('Text','https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/head1.gif','Title');
+		alert("2");
 		  }
 		});
 	  }
