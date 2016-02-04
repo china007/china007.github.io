@@ -73,7 +73,7 @@ function sendMsg() {
 	var Chat = Bmob.Object.extend("Chat");
 	var chat = new Chat();
 	chat.set("name", $("#name").val());
-	notify();	
+
 	//消息添加换行
 	chat.set("content", $("#content").val().replace(/\n/g, "<br/>"));
 	chat.set("userId",userId);
