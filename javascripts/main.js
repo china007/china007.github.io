@@ -209,8 +209,10 @@ function getHistory(){
 				getMsg(data.get('sendFrom'), data.get('sendTo'), data.createdAt, data.get('content'));
 			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
-			changeSendTo(results[results.length-1].get('sendTo'));
-			scollToEnd();
+			if(results.length!=0){
+				changeSendTo(results[results.length-1].get('sendTo'));
+				scollToEnd();
+			}
 		},
 		error: function(error) {
 	  		console.log("查询失败: " + error.code + " " + error.message);
