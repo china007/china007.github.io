@@ -107,6 +107,7 @@ function sendMsg() {
 	chat.set("sendFrom",userId);
 	chat.set("sendTo",sendToId);
 	
+        sendToId = sendToId=="All"?"*":sendToId;
 	//用户读取权限控制
 	var json = {};
 	json[userId] ={"read":true,"write":true};
