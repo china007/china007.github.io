@@ -119,8 +119,8 @@ html, body {
     padding:0
 }
 #dHead {
-    height:20px;
-    line-height:20px;
+    height:30px;
+    line-height:30px;
     background:#690;
     width:100%;
     position:absolute;
@@ -132,7 +132,7 @@ html, body {
     /*background:#FC0;*/
     width:100%;
     overflow:auto;
-    top:20px;
+    top:30px;
     position:absolute;
     z-index:10;
     bottom:50px;
