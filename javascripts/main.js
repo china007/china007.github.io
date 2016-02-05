@@ -26,14 +26,17 @@ $(function() {
  * 显示好友tab
  */
 function showFrindTab(){
-	var innerStr='<span id="allUsers" style="font-size:15px"><a href="#" onclick="alert()">群聊</a></span>&nbsp;&nbsp';
+	var innerMenuStr='';
+	var innerTabStr='';
 	for(var k in userList){
 		if(k!=userId){
-			innerStr+='<span id="'+k+'" style="font-size:15px"><a href="#" onclick="alert()">'+userList[k].name+'</a></span>&nbsp;&nbsp'
+			innerMenuStr+='<li><a id=menu'+k+' class="chatMenu" onclick=changeSendTo("'+k+'")><span>'+userList[k].name+'</span></a></li>';
+			innerTabStr +='<div id=data'+k+'  class="chatTab"></div>';
 		}
 	}
-	innerStr+='<input type="button" onclick="logout();" style="float:right;height:20px" value="注销">';
-	document.getElementById('dHead').innerHTML=innerStr;
+	innerMenuStr+='<input type="button" onclick="logout();" style="float:right;height:30px;" value="注销">';
+	document.getElementById('menu').innerHTML=innerMenuStr;
+	document.getElementById('mycontent').innerHTML=innerTabStr;
 }
 
 //服务器
@@ -53,6 +56,7 @@ if (currentUser) {
 }
 
 var userList={};
+userList["All"]={"name":"群聊","chatLastTime":""};
 getUserList();
 /** 
  * 查询所有用户
@@ -64,7 +68,7 @@ function getUserList(){
 			success: function(results) {
 				if(results.length > "0"){
 					for (i in results) {
-						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username")};
+						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username"),"chatLastTime":""};
 					}
 					showFrindTab();
 				}
@@ -101,10 +105,12 @@ function sendMsg() {
 	var content = $("#content").val().replace(/\n/g, "<br/>");
 	chat.set("content", content);
 	chat.set("sendFrom",userId);
+	chat.set("sendTo",sendToId);
 	
 	//用户读取权限控制
-	var json = {"*":{"read":true}};
+	var json = {};
 	json[userId] ={"read":true,"write":true};
+	json[sendToId]={"read":true};
 	chat.set("ACL",json);
 	
 	//清空消息
@@ -119,7 +125,7 @@ function sendMsg() {
 			}
 	});
 	
-	getMsg(userId, getNowFormatDate(), content);
+	getMsg(userId, sendToId, getNowFormatDate(), content);
 	scollToEnd();
 }
 
@@ -134,7 +140,7 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 	if (tablename == "Chat") {
 		// 不是自己发送的消息则显示提示
 		if(data.sendFrom!=userId){
-			getMsg(data.sendFrom, data.createdAt, data.content);
+			getMsg(data.sendFrom, data.sendTo, data.createdAt, data.content);
 			scollToEnd();
 			notify(data.content,userList[data.sendFrom].img,data.name + data.createdAt.substring(11));
 		}
@@ -200,9 +206,10 @@ function getHistory(){
 			// 循环处理查询到的数据
 			for (var i = 0; i < results.length; i++) {
 			    var data = results[i];
-				getMsg(data.get('sendFrom'), data.createdAt, data.get('content'));
+				getMsg(data.get('sendFrom'), data.get('sendTo'), data.createdAt, data.get('content'));
 			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
+			changeSendTo(results[results.length-1].get('sendTo'));
 			scollToEnd();
 		},
 		error: function(error) {
@@ -247,15 +254,21 @@ function compareDate(dateStr1, dateStr2){
 }
  
 //消息拼接
-function getMsg(senderId,sendTime,sendContent){
-	var content = $("#data");
+function getMsg(senderId, sendToId, sendTime,sendContent){
+	var tabId="";
+	if(senderId==userId){
+		tabId=sendToId;
+	}else{
+		tabId=senderId;
+	}
+	var content = $("#data" + tabId);
 	//clear: bothを指定すればfloatによる回り込みをキャンセル出来ます。
 	var p = '<div style="clear:both"><br>';
-	if(lastTime == ""){
-		lastTime = sendTime;
-		p += '<span style="color:green;display:block;text-align:center">' + lastTime + '</span>';
+	if(userList[tabId].chatLastTime == ""){
+		userList[tabId].chatLastTime = sendTime;
+		p += '<span style="color:green;display:block;text-align:center">' + userList[tabId].chatLastTime + '</span>';
 	}
-	if(compareDate(sendTime,lastTime)){
+	if(compareDate(sendTime,userList[tabId].chatLastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
 	if(userList.length != 0 && userList[senderId] != null && userList[senderId].img != null && userList[senderId].img != ""){
@@ -268,7 +281,7 @@ function getMsg(senderId,sendTime,sendContent){
 	}else{
 		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + sendContent + '</div></div></div>';
 	}
-	lastTime = sendTime;
+	userList[tabId].chatLastTime = sendTime;
 	content.html(content.html() + p);
 	// changeImg(senderId,getImgUrl(senderId));
 }
@@ -355,11 +368,23 @@ function saveIp(){
 	
 	ip.save(null, {
 		success : function (object) {
-			console.log("Ip登录成功！");
+			console.log("Ip保存成功！");
 			},
 		error : function (model, error) {
-			console.log("Ip登录失败！");
+			console.log("Ip保存失败！");
 			console.log("Error: " + error.code + " " + error.message);
 			}
 	});
+}
+
+/**
+ * 改变聊天对象
+ */
+var sendToId ="All";
+function changeSendTo(sendTo){
+	sendToId=sendTo;
+	$(".chatTab").hide();
+	$("#data"+sendToId).show();
+	$(".chatMenu").removeClass("active");
+	$("#menu"+sendToId).addClass("active");
 }

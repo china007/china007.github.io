@@ -203,10 +203,10 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 		
 		ip.save(null, {
 			success : function (object) {
-				console.log("Ip登录成功！");
+				console.log("Ip保存成功！");
 				},
 			error : function (model, error) {
-				console.log("Ip登录失败！");
+				console.log("Ip保存失败！");
 				console.log("Error: " + error.code + " " + error.message);
 				}
 		});
