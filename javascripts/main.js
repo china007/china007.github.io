@@ -392,4 +392,5 @@ function changeSendTo(sendTo){
 	$("#data"+sendToId).show();
 	$(".chatMenu").removeClass("active");
 	$("#menu"+sendToId).addClass("active");
+        scollToEnd();
 }
