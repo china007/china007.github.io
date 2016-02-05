@@ -261,7 +261,7 @@ function compareDate(dateStr1, dateStr2){
 //消息拼接
 function getMsg(senderId, sendToId, sendTime,sendContent){
 	var tabId="";
-	if(senderId==userId){
+	if(senderId==userId || sendToId == "All"){
 		tabId=sendToId;
 	}else{
 		tabId=senderId;
