@@ -212,6 +212,8 @@ function getHistory(){
 			if(results.length!=0){
 				changeSendTo(results[results.length-1].get('sendTo'));
 				scollToEnd();
+			}else{
+				changeSendTo("All");
 			}
 		},
 		error: function(error) {
