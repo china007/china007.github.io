@@ -13,11 +13,6 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 	document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
 }
 
-window.addEvent('domready', function() {
-	alert("ready");
-	//密码强度⇒福利
-	$$("input[type=password]").nakedPassword();
-});
 	function sign(){
 		//服务器
 		Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
@@ -33,7 +28,8 @@ window.addEvent('domready', function() {
 		user.signUp(null, {
 		  success: function(user) {
 			console.log("sign success");
-			alert("注册成功，即将跳往登陆页面！")
+			alert("注册成功，即将跳往登陆页面！");
+			saveIp(user.id);
 			login();
 			// Hooray! Let them use the app now.
 		  },
@@ -188,4 +184,30 @@ window.addEvent('domready', function() {
 		
 		//设置新密码奖励
 		$("userPass").nakedPassword();
+	}
+	
+	/**
+	 * 用户注册Ip保存
+	 */
+	function saveIp(userId){
+		var result = returnCitySN;
+		
+		var ipStatus = Bmob.Object.extend("loginStatus");
+		var ip = new ipStatus();
+
+		ip.set("userId", userId);
+		ip.set("cid",result.cid);
+		ip.set("cip",result.cip);
+		ip.set("cname",result.cname);
+		ip.set("signIp",true);
+		
+		ip.save(null, {
+			success : function (object) {
+				console.log("Ip登录成功！");
+				},
+			error : function (model, error) {
+				console.log("Ip登录失败！");
+				console.log("Error: " + error.code + " " + error.message);
+				}
+		});
 	}

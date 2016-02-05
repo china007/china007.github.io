@@ -19,13 +19,14 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 $(function() {
 	//取得历史消息
 	getHistory();
+	saveIp();
 });
 
 /**
  * 显示好友tab
  */
 function showFrindTab(){
-	var innerStr="";
+	var innerStr='<span id="allUsers" style="font-size:15px"><a href="#" onclick="alert()">群聊</a></span>&nbsp;&nbsp';
 	for(var k in userList){
 		if(k!=userId){
 			innerStr+='<span id="'+k+'" style="font-size:15px"><a href="#" onclick="alert()">'+userList[k].name+'</a></span>&nbsp;&nbsp'
@@ -109,8 +110,13 @@ function sendMsg() {
 	//清空消息
 	$("#content").val("");
 	chat.save(null, {
-		success : function (object) {},
-		error : function (model, error) {}
+		success : function (object) {
+			console.log("送信成功！");
+			},
+		error : function (model, error) {
+			console.log("送信失败！");
+			console.log("Error: " + error.code + " " + error.message);
+			}
 	});
 	
 	getMsg(userId, getNowFormatDate(), content);
@@ -255,7 +261,7 @@ function getMsg(senderId,sendTime,sendContent){
 	if(userList.length != 0 && userList[senderId] != null && userList[senderId].img != null && userList[senderId].img != ""){
 		p += '<div><img src="'+userList[senderId].img+'"';
 	}else{
-		p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/loading.gif"';
+		p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
 	}
 	if(senderId==userId){
 		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></div>';
@@ -330,4 +336,30 @@ function getNowFormatDate() {
             + " " + date.getHours() + seperator2 + date.getMinutes()
             + seperator2 + date.getSeconds();
     return currentdate;
+}
+
+/**
+ * 保存用户登录信息
+ */
+function saveIp(){
+	var result = returnCitySN;
+	
+	var ipStatus = Bmob.Object.extend("loginStatus");
+	var ip = new ipStatus();
+
+	ip.set("userId", userId);
+	ip.set("cid",result.cid);
+	ip.set("cip",result.cip);
+	ip.set("cname",result.cname);
+	ip.set("signIp",false);
+	
+	ip.save(null, {
+		success : function (object) {
+			console.log("Ip登录成功！");
+			},
+		error : function (model, error) {
+			console.log("Ip登录失败！");
+			console.log("Error: " + error.code + " " + error.message);
+			}
+	});
 }
