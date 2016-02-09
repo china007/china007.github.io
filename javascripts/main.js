@@ -107,12 +107,12 @@ function sendMsg() {
 	chat.set("sendFrom",userId);
 	chat.set("sendTo",sendToId);
 	
+	sendTo = sendToId=="All"?"*":sendToId;
 	//用户读取权限控制
 	var json = {};
-	json[userId] ={"read":true,"write":true};
-	json[sendToId]={"read":true};
-	chat.set("ACL",json);
-	
+	json[userId] = {"read":true,"write":true};
+	json[sendTo] = {"read":true};
+
 	//清空消息
 	$("#content").val("");
 	chat.save(null, {
@@ -260,7 +260,7 @@ function compareDate(dateStr1, dateStr2){
 //消息拼接
 function getMsg(senderId, sendToId, sendTime,sendContent){
 	var tabId="";
-	if(senderId==userId){
+	if(senderId==userId || sendToId == "All"){
 		tabId=sendToId;
 	}else{
 		tabId=senderId;
@@ -391,4 +391,32 @@ function changeSendTo(sendTo){
 	$("#data"+sendToId).show();
 	$(".chatMenu").removeClass("active");
 	$("#menu"+sendToId).addClass("active");
+	scollToEnd();
+}
+
+/**
+ * 获取好友列表
+ */
+var friendList={};
+function getFriendList(){
+	var friendInfo= Bmob.Object.extend("friend");
+	var query= new Bmob.Query(friendInfo);
+
+	query.set("userId",userId);
+	query.find({
+		success: function(results) {
+			if(results.length > "0"){
+				for (i in results) {
+					friendList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username"),"chatLastTime":""};
+				}
+				showFrindTab();
+			}
+			else{
+				console.log("没有好友信息");
+			}
+		},
+		error: function(error) {
+			console.log("Error: " + error.code + " " + error.message);
+		}
+	});
 }
