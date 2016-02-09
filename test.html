@@ -1,61 +1,22 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-<title>JavaScript鑾峰彇瀹㈡埛绔疘P[鍒╃敤鏂版氮鎺ュ彛]</title>
-</head>
-<body>
+<html>  
+<head>   
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
     <script src="javascripts/jquery.min.js"></script>
-    <script src="javascripts/bmobSocketIo.js"></script>
-    <script src="javascripts/bmob.js"></script>
-<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/javascript"></script>
-<script typee="text/javascript">
-    document.write(remote_ip_info.country);
-    var guojia =remote_ip_info.country;
-    var shenfen =remote_ip_info.province;
-    var city =remote_ip_info.city;
-    //document.write(remote_ip_info.province);
-    document.write(remote_ip_info.city);
-    document.write(remote_ip_info.isp);
-	getUserList();
-function getUserList(){
-Bmob.initialize("e9978deb922a3ee549d8ca3266edff09", "db703f75fad13d945031b0500d366408");
-  var UserInfo = Bmob.Object.extend("Chat");
-  var queryName = new Bmob.Query(UserInfo);
-    queryName.ascending('createdAt');
-	 var createdAt="";
-	queryName.find({
-      success: function(results) {
-        if(results.length > "0"){
-          for (i in results) {
-            console.log("content:"+results[i].get("content")+ " name:"+results[i].get("name")+" time:"+results[i].createdAt);
-          }
-		  createdAt = results[results.length-1].createdAt;
-        }
-        else{
-          console.log("没有用户信息");
-        }
-      },
-      error: function(error) {
-        console.log("Error: " + error.code + " " + error.message);
-      }
-    });
-	queryName.greaterThan("createdAt","2014-07-23 16:50:49");
-	queryName.find({
-      success: function(results) {
-        if(results.length > "0"){
-          for (i in results) {
-            console.log("content:"+results[i].get("content")+ " name:"+results[i].get("name")+" time:"+results[i].createdAt);
-          }
-        }
-        else{
-          console.log("没有用户信息");
-        }
-      },
-      error: function(error) {
-        console.log("Error: " + error.code + " " + error.message);
-      }
-    });
-}
-</script>
-
-</html>
+<script type="text/javascript">
+var time=1;
+$.ajax({
+	 url: '',
+	type: 'get',
+	success: function (data, status, xhr) {             
+		 var str = xhr.getResponseHeader('Date');  //鑾峰彇Response Header閲岄潰鐨凞ate
+                 var date = new Date(str).getTime(); //鎶奃ate杞崲鎴愭椂闂村璞�
+		 time=date;
+		 alert(time);  //杈撳嚭鏃堕棿鎴�
+	  }
+});
+	</script>
+</head>   
+<body>   
+        <button onclick="notifyMe()">Notify me!</button>   
+</body>  
+</html>  
