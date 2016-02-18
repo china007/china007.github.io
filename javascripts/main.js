@@ -112,7 +112,9 @@ function sendMsg() {
 	var json = {};
 	json[userId] = {"read":true,"write":true};
 	json[sendTo] = {"read":true};
-
+	//ALC设置
+	chat.set("ACL",json);
+	
 	//清空消息
 	$("#content").val("");
 	chat.save(null, {
