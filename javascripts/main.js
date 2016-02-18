@@ -20,6 +20,10 @@ $(function() {
 	//取得历史消息
 	getHistory();
 	saveIp();
+	$("#fileImg").click(function() {
+	var selectFile = document.getElementById("selectFile");
+	selectFile.click();
+});
 });
 
 /**
@@ -82,10 +86,10 @@ function getUserList(){
 		});
 }
 
-function sendMsg() {
+function sendMsg(content) {
 	// var name = $("#name").val();
 	// var name = currentUser.attributes.username;
-	var content = $("#content").val();
+	content= content!=null?content:$("#content").val();
 
 	// if ($.trim(name) == "") {
 		// alert("昵称不能为空！");
@@ -102,10 +106,11 @@ function sendMsg() {
 	// chat.set("name", $("#name").val());
 
 	//消息添加换行
-	var content = $("#content").val().replace(/\n/g, "<br/>");
+	var content = content.replace(/\n/g, "<br/>");
 	chat.set("content", content);
 	chat.set("sendFrom",userId);
 	chat.set("sendTo",sendToId);
+	//chat.set("chatImgs",document.getElementById("selectFile").value);
 	
 	sendTo = sendToId=="All"?"*":sendToId;
 	//用户读取权限控制
@@ -433,4 +438,46 @@ function getFriendList(){
 			console.log("Error: " + error.code + " " + error.message);
 		}
 	});
+}
+
+/**
+ * 图片文件上传
+ * 
+ */
+
+var chatImgsUrl="";
+function fileUpload() {
+	// ファイル名のみ取得して表示します
+	var selectFile = document.getElementById("selectFile").value;
+	var regex = /\\|\\/;
+	var array = selectFile.split(regex);
+	
+	var fileUploadControl = $("#selectFile")[0];
+	if (fileUploadControl.files.length > 0) {
+		var file = fileUploadControl.files[0];
+		var name = array[array.length - 1];
+		var file = new Bmob.File(name, file);     
+		file.save().then(function(obj) {
+			chatImgsUrl = obj.url();
+			sendMsg("<img src='"+obj.url()+"'/>");
+		}, function(error) {
+			console.log("file upload error");
+		});
+
+	}else{
+		console.log("file upload error");
+	}
+};
+
+function img(){
+	var selectFile = document.getElementById("selectFile").value;
+	var regex = /\\|\\/;
+	var array = selectFile.split(regex);
+	Bmob.Image.thumbnail({"image":selectFile,"mode":0,"quality":100,"width":100}
+
+  ).then(function(obj) {
+
+  alert("filename:"+obj.filename); //
+  alert("url:"+obj.url); //
+});
 }
