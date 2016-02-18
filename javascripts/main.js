@@ -275,7 +275,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 	if(compareDate(sendTime,userList[tabId].chatLastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
-	if(userList.length != 0 && userList[senderId] != null && userList[senderId].img != null && userList[senderId].img != ""){
+	if (!isEmptyObject(userList[senderId].img)) {
 		p += '<div><img src="'+userList[senderId].img+'"';
 	}else{
 		p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
@@ -288,6 +288,18 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 	userList[tabId].chatLastTime = sendTime;
 	content.html(content.html() + p);
 	// changeImg(senderId,getImgUrl(senderId));
+}
+
+/**
+ * 判断变量是否为空
+ * return true:空
+ *        false:非空
+ */
+function isEmptyObject(obj){
+  for (var key in obj) {
+    return false;
+  }
+  return true;
 }
 
 /**
