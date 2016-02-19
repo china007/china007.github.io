@@ -481,7 +481,7 @@ function fileUpload() {
 
 function showImg0(imgUrl){
 	$("#mycontent").hide();
-	$("#imgDiv").html("<img src='"+imgUrl+"' onclick='hideImg0()'>");
+	$("#imgDiv").html("<img src='"+imgUrl+"'>");
 	$("#imgDiv").show();
 }
 
