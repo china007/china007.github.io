@@ -459,7 +459,7 @@ function fileUpload() {
 		var file = new Bmob.File(name, file);     
 		file.save().then(function(obj) {
 			chatImgsUrl = obj.url();
-			Bmob.Image.thumbnail({"image":chatImgsUrl,"mode":0,"quality":100,"width":100}
+			Bmob.Image.thumbnail({"image":chatImgsUrl,"mode":4,"quality":100,"width":100,"height":200}
 			).then(function(obj) {
 				console.log("filename:"+obj.filename); //
 				console.log("url:"+obj.url); //
