@@ -1,22 +1,47 @@
 <html>  
 <head>   
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
     <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/bmobSocketIo.js"></script>
+    <script src="javascripts/bmob.js"></script>
 <script type="text/javascript">
-var time=1;
-$.ajax({
-	 url: '',
-	type: 'get',
-	success: function (data, status, xhr) {             
-		 var str = xhr.getResponseHeader('Date');  //è·å–Response Headeré‡Œé¢çš„Date
-                 var date = new Date(str).getTime(); //æŠŠDateè½¬æ¢æˆæ—¶é—´å¯¹è±¡
-		 time=date;
-		 alert(time);  //è¾“å‡ºæ—¶é—´æˆ³
-	  }
-});
+//·şÎñÆ÷
+BmobSocketIo.initialize("dca3caf303926c6c4368e02c5a715215");
+//³õÊ¼Á¬½Ósocket.io·şÎñÆ÷ºó£¬ĞèÒª¼àÌıµÄÊÂ¼ş¶¼Ğ´ÔÚÕâ¸öº¯ÊıÄÚ
+BmobSocketIo.onInitListen = function () {
+	//¶©ÔÄGameScore±íµÄÊı¾İ¸üĞÂÊÂ¼ş
+	BmobSocketIo.updateTable("AREA_CACHE");
+	BmobSocketIo.updateTable("BALL_CACHE");
+	BmobSocketIo.updateTable("CITY_CACHE");
+	BmobSocketIo.updateTable("GROUP_INFO");
+	BmobSocketIo.updateTable("STRING_CACHE");
+	BmobSocketIo.updateTable("SYSTEM_MESSAGE");
+	BmobSocketIo.updateTable("USER_INFOS");
+	console.log("start to listen");
+};
+
+//¼àÌı·şÎñÆ÷·µ»ØµÄ¸üĞÂ±íµÄÊı¾İ
+BmobSocketIo.onUpdateTable = function (tablename, data) {
+	if (tablename == "AREA_CACHE") {
+		console.log("AREA_CACHE");
+	}else if (tablename == "BALL_CACHE") {
+		console.log("BALL_CACHE");
+	}else if (tablename == "CITY_CACHE") {
+		console.log("CITY_CACHE");
+	}else if (tablename == "GROUP_INFO") {
+		console.log("GROUP_INFO");
+	}else if (tablename == "STRING_CACHE") {
+		console.log("STRING_CACHE");
+	}else if (tablename == "SYSTEM_MESSAGE") {
+		console.log("SYSTEM_MESSAGE");
+	}else if (tablename == "USER_INFOS") {
+		console.log("USER_INFOS");
+	};
+	console.log(tablename);
+	console.log(data);
+};
 	</script>
 </head>   
 <body>   
-        <button onclick="notifyMe()">Notify me!</button>   
 </body>  
 </html>  
