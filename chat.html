@@ -19,19 +19,17 @@
 	</ul>
 	</div>
 	<div id="dBody">
-	<div id="imgDiv" style="display:none">
-	</div>
 	<div id="mycontent">
 	</div>
 	</div>
 	<div id="dFoot">
 		<div id="fileUploadDiv">
 			<input type="file" id="selectFile" style="display:none;" onchange="fileUpload()"/>
-			<img style="width:100%;height:100%" id="fileImg" src="./images/fileUpload0.png" title="参照"/>
+			<img style="margin:-12px;width:150%;height:150%" id="fileImg" src="./images/fileUpload0.png" title="参照"/>
 		</div>
 		<div id="leftDiv"><textarea placeholder="送信内容" id="content"></textarea></div>
 		<div id="rightDiv">
-			<!--div id="nameDiv"><input type="text" placeholder="昵称" id="name"readonly="readonly"/></div-->
+			<div id="nameDiv"><input type="text" placeholder="昵称" id="name"readonly="readonly"/></div>
 			<div id="sendDiv"><input type="button" onclick="sendMsg();this.disabled=true;setTimeout('send.disabled=false',1000);" value="送信" id="send"/></div>
 		</div>
 	</div>

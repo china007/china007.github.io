@@ -2,6 +2,10 @@
 	width:100%;
 }
 
+img{
+width:30px;height:30px;
+}
+
 #fileUploadDiv{
 	height:100%;
 	width:13%;
@@ -14,7 +18,7 @@
 }
 #rightDiv{
 	height:100%;
-	width:17%;
+	width:15%;
 	float:left;
 }
 #content { 
@@ -29,7 +33,6 @@
 	border:0px;
 	padding:2px;
 }
-/*
 #nameDiv{
 	display:none;
 	height:50%;
@@ -44,14 +47,14 @@
 	height:80%;
 	width:80%;
 	text-align:center; 
-}*/
+}
 #sendDiv{
 	height:100%;
 	width:100%;
 }
 #send { 
 	margin-top:2px;
-	margin-left:5%;
+	margin-left:4px;
 	height:90%;
 	width:90%;
 }
@@ -121,8 +124,8 @@ html, body {
     padding:0
 }
 #dHead {
-    height:30px;
-    line-height:30px;
+    height:20px;
+    line-height:20px;
     background:#690;
     width:100%;
     position:absolute;
@@ -134,7 +137,7 @@ html, body {
     /*background:#FC0;*/
     width:100%;
     overflow:auto;
-    top:30px;
+    top:20px;
     position:absolute;
     z-index:10;
     bottom:50px;

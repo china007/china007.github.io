@@ -283,9 +283,9 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
 	if (!isEmptyObject(userList[senderId].img)) {
-		p += '<div><img class="headImg" src="'+userList[senderId].img+'"';
+		p += '<div><img src="'+userList[senderId].img+'"';
 	}else{
-		p += '<div><img class="headImg" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
+		p += '<div><img class="'+ senderId +'" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
 	}
 	if(senderId==userId){
 		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></div>';
@@ -459,19 +459,9 @@ function fileUpload() {
 		var file = new Bmob.File(name, file);     
 		file.save().then(function(obj) {
 			chatImgsUrl = obj.url();
-			Bmob.Image.thumbnail({"image":chatImgsUrl,"mode":0,"quality":100,"width":100}
-			).then(function(obj) {
-				console.log("filename:"+obj.filename); //
-				console.log("url:"+obj.url); //
-				//本页面跳转到原图，后退有bug
-				//sendMsg("<a href='"+chatImgsUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
-				//新打开窗口显示原图
-				//sendMsg("<img onclick=window.open('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-				//历史消息窗口显示原图，点击原图返回前页面
-				sendMsg("<img onclick=showImg0('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-			});
+			sendMsg("<img src='"+obj.url()+"'/>");
 		}, function(error) {
-			console.log("file upload error"+error);
+			console.log("file upload error");
 		});
 
 	}else{
@@ -479,14 +469,15 @@ function fileUpload() {
 	}
 };
 
-function showImg0(imgUrl){
-	$("#mycontent").hide();
-	$("#imgDiv").html("<img src='"+imgUrl+"' onclick='hideImg0()'>");
-	$("#imgDiv").show();
-}
+function img(){
+	var selectFile = document.getElementById("selectFile").value;
+	var regex = /\\|\\/;
+	var array = selectFile.split(regex);
+	Bmob.Image.thumbnail({"image":selectFile,"mode":0,"quality":100,"width":100}
 
-function hideImg0(){
-	$("#mycontent").show();
-	$("#imgDiv").html("");
-	$("#imgDiv").hide();
+  ).then(function(obj) {
+
+  alert("filename:"+obj.filename); //
+  alert("url:"+obj.url); //
+});
 }
