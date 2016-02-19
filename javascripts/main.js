@@ -210,9 +210,12 @@ function getHistory(){
 	query.find({
 		success: function(results) {
 			// alert("共查询到 " + results.length + " 条记录");
+			var startIndex = 0;
+			if(results.length > 20)
+				startIndex=results.length-20;
 			// 循环处理查询到的数据
-			for (var i = 0; i < results.length; i++) {
-			    var data = results[i];
+			for (startIndex; startIndex < results.length;startIndex++) {
+			    var data = results[startIndex];
 				getMsg(data.get('sendFrom'), data.get('sendTo'), data.createdAt, data.get('content'));
 			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
@@ -275,7 +278,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 	var content = $("#data" + tabId);
 	//clear: bothを指定すればfloatによる回り込みをキャンセル出来ます。
 	var p = '<div style="clear:both"><br>';
-	if(userList[tabId].chatLastTime == ""){
+	if(isEmptyObject(userList[tabId].chatLastTime)){
 		userList[tabId].chatLastTime = sendTime;
 		p += '<span style="color:green;display:block;text-align:center">' + userList[tabId].chatLastTime + '</span>';
 	}
@@ -455,21 +458,26 @@ function fileUpload() {
 	var fileUploadControl = $("#selectFile")[0];
 	if (fileUploadControl.files.length > 0) {
 		var file = fileUploadControl.files[0];
+		var size = file.size;
 		var name = array[array.length - 1];
 		var file = new Bmob.File(name, file);     
 		file.save().then(function(obj) {
 			chatImgsUrl = obj.url();
-			Bmob.Image.thumbnail({"image":chatImgsUrl,"mode":4,"quality":100,"width":100,"height":200}
-			).then(function(obj) {
-				console.log("filename:"+obj.filename); //
-				console.log("url:"+obj.url); //
-				//本页面跳转到原图，后退有bug
-				//sendMsg("<a href='"+chatImgsUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
-				//新打开窗口显示原图
-				//sendMsg("<img onclick=window.open('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-				//历史消息窗口显示原图，点击原图返回前页面
-				sendMsg("<img onclick=showImg0('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-			});
+			if(size > 15000){
+				Bmob.Image.thumbnail({"image":chatImgsUrl,"mode":4,"quality":100,"width":100,"height":200}
+				).then(function(obj) {
+					// console.log("filename:"+obj.filename); 
+					// console.log("url:"+obj.url); 
+					//本页面跳转到原图，后退有bug
+					//sendMsg("<a href='"+chatImgsUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
+					//新打开窗口显示原图
+					//sendMsg("<img onclick=window.open('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
+					//历史消息窗口显示原图，点击原图返回前页面
+					sendMsg("<img onclick=showImg0('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
+				});
+			}else{
+				sendMsg("<img src='"+chatImgsUrl+"'/>");
+			}
 		}, function(error) {
 			console.log("file upload error"+error);
 		});
