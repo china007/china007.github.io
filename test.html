@@ -1,47 +1,54 @@
-<html>  
-<head>   
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
-    <script src="javascripts/jquery.min.js"></script>
-    <script src="javascripts/bmobSocketIo.js"></script>
-    <script src="javascripts/bmob.js"></script>
-<script type="text/javascript">
-//服务器
-BmobSocketIo.initialize("dca3caf303926c6c4368e02c5a715215");
-//初始连接socket.io服务器后，需要监听的事件都写在这个函数内
-BmobSocketIo.onInitListen = function () {
-	//订阅GameScore表的数据更新事件
-	BmobSocketIo.updateTable("AREA_CACHE");
-	BmobSocketIo.updateTable("BALL_CACHE");
-	BmobSocketIo.updateTable("CITY_CACHE");
-	BmobSocketIo.updateTable("GROUP_INFO");
-	BmobSocketIo.updateTable("STRING_CACHE");
-	BmobSocketIo.updateTable("SYSTEM_MESSAGE");
-	BmobSocketIo.updateTable("USER_INFOS");
-	console.log("start to listen");
-};
+<figure>
+ <img id="elephant" src="about:blank" alt="A close up of an elephant">
+ <noscript>
+ <img src="./images/f0.png" alt="A close up of an elephant">
+ </noscript> 
+ <figcaption>A mighty big elephant, and mighty close too!</figcaption>
+</figure>
+<script>
+	// localStorage with image
+    var storageFiles = JSON.parse(localStorage.getItem("storageFiles")) || {},
+        elephant = document.getElementById("elephant"),
+        storageFilesDate = storageFiles.date,
+        date = new Date(),
+        todaysDate = (date.getMonth() + 1).toString() + date.getDate().toString();
 
-//监听服务器返回的更新表的数据
-BmobSocketIo.onUpdateTable = function (tablename, data) {
-	if (tablename == "AREA_CACHE") {
-		console.log("AREA_CACHE");
-	}else if (tablename == "BALL_CACHE") {
-		console.log("BALL_CACHE");
-	}else if (tablename == "CITY_CACHE") {
-		console.log("CITY_CACHE");
-	}else if (tablename == "GROUP_INFO") {
-		console.log("GROUP_INFO");
-	}else if (tablename == "STRING_CACHE") {
-		console.log("STRING_CACHE");
-	}else if (tablename == "SYSTEM_MESSAGE") {
-		console.log("SYSTEM_MESSAGE");
-	}else if (tablename == "USER_INFOS") {
-		console.log("USER_INFOS");
-	};
-	console.log(tablename);
-	console.log(data);
-};
-	</script>
-</head>   
-<body>   
-</body>  
-</html>  
+    // Compare date and create localStorage if it's not existing/too old   
+    if (typeof storageFilesDate === "undefined" || storageFilesDate < todaysDate) {
+        // Take action when the image has loaded
+        elephant.addEventListener("load", function () {
+            var imgCanvas = document.createElement("canvas"),
+                imgContext = imgCanvas.getContext("2d");
+
+            // Make sure canvas is as big as the picture
+            imgCanvas.width = elephant.width;
+            imgCanvas.height = elephant.height;
+
+            // Draw image into canvas element
+            imgContext.drawImage(elephant, 0, 0, elephant.width, elephant.height);
+
+            // Save image as a data URL
+            storageFiles.elephant = imgCanvas.toDataURL("image/png");
+
+            // Set date for localStorage
+            storageFiles.date = todaysDate;
+
+            // Save as JSON in localStorage
+            try {
+                localStorage.setItem("storageFiles", JSON.stringify(storageFiles));
+            }
+            catch (e) {
+                    console.log("Storage failed: " + e);                
+            }
+        }, false);
+
+        // Set initial image src    
+        elephant.setAttribute("src", "./images/f0.png");
+    }
+    else {
+        // Use image from localStorage
+        elephant.setAttribute("src", storageFiles.elephant);
+    }
+
+  
+</script>
