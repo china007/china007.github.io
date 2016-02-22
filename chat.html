@@ -11,7 +11,6 @@
     <script src="javascripts/bmobSocketIo.js"></script>
     <script src="javascripts/bmob.js"></script>
     <script src="javascripts/main.js"></script>
-
 </head>
 <body>
 	<div id="dHead">
@@ -24,6 +23,7 @@
 	<div id="mycontent">
 	</div>
 	</div>
+	<div id="emoji" style="float:bottom;display:none"></div>
 	<div id="dFoot">
 		<div id="fileUploadDiv">
 			<input type="file" id="selectFile" style="display:none;" onchange="fileUpload()"/>
@@ -31,8 +31,12 @@
 		</div>
 		<div id="leftDiv"><textarea placeholder="送信内容" id="content"></textarea></div>
 		<div id="rightDiv">
-			<!--div id="nameDiv"><input type="text" placeholder="昵称" id="name"readonly="readonly"/></div-->
-			<div id="sendDiv"><input type="button" onclick="sendMsg();this.disabled=true;setTimeout('send.disabled=false',1000);" value="送信" id="send"/></div>
+			<!--div id="nameDiv"><input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);"value="+"></input>
+			<input type="text" placeholder="昵称" id="name"readonly="readonly"/></div-->
+
+			<div id="sendDiv">
+			<input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);page=0;initEmoji();"value="+"/>
+			<input type="button" onclick="sendMsg();this.disabled=true;setTimeout('send.disabled=false',1000);" value="送信" id="send"/></div>
 		</div>
 	</div>
 	<script>
@@ -48,7 +52,6 @@
 		//document.querySelector('body').addEventListener('touchmove', function (ev) {
 			//event.preventDefault();
 		//});
-
 		});
 		/*
 		$(document).on('touchmove',function(e){

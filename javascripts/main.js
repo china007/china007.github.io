@@ -21,9 +21,11 @@ $(function() {
 	getHistory();
 	saveIp();
 	$("#fileImg").click(function() {
-	var selectFile = document.getElementById("selectFile");
-	selectFile.click();
-});
+		var selectFile = document.getElementById("selectFile");
+		selectFile.click();
+	});
+	//初始化表情
+	initEmoji();
 });
 
 /**
@@ -498,3 +500,61 @@ function hideImg0(){
 	$("#imgDiv").html("");
 	$("#imgDiv").hide();
 }
+
+/**
+ * 初始化默认表情
+ */
+var page=0;
+var MaxEmoji=90;
+function initEmoji(){
+	var MAXROW=4;
+	var MAXCOL=9;
+	var htmlStr="<table>";
+	for(var row=0;row<MAXROW;row++)
+	 {
+		htmlStr+="<tr>";
+		for(var col=1;col<MAXCOL;col++)
+		{
+			var index=col+(MAXCOL-1)*row+page*(MAXROW*(MAXCOL-1)-1);
+			//判断是不是最后一个
+			if(index<MaxEmoji+1){
+				//判断是不是该页最后一个
+				if(row==MAXROW-1&&col==MAXCOL-1){
+					htmlStr+="<td><input type='button' value='⇒' onclick='initEmoji();'></td>";
+				}else{
+					htmlStr+="<td><img src='images/emoji/"+index+".gif' onclick='sendEmoji("+index+");'></img></td>";
+				}
+			}else{
+				htmlStr+="<td></td>";
+			}
+		}
+		htmlStr+="</tr>";
+	 }
+	page++;
+	htmlStr+="</table>";
+	document.getElementById("emoji").innerHTML=htmlStr;
+}
+/**
+ * 显示或隐藏表情
+ * 
+ */
+function showOrHideEmoji(button){
+	
+	var emojiDiv=document.getElementById("emoji");
+	if(emojiDiv.style.display=="block")
+	{
+		emojiDiv.style.display ="none";
+		button.value="+";
+	}else{
+		emojiDiv.style.display ="block";
+		button.value="-";
+	}
+}
+
+/**
+ * 发送并隐藏表情列表
+ */
+ function sendEmoji(index){
+	 showOrHideEmoji(document.getElementById("openEmojiBtn"));
+	 sendMsg("<img src='images/emoji/"+index+".gif'></img>");
+ }
