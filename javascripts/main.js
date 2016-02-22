@@ -15,7 +15,8 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 	document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
 }
 
-
+var page=0;
+var MaxEmoji=90;
 $(function() {
 	//取得历史消息
 	getHistory();
@@ -25,8 +26,6 @@ $(function() {
 		selectFile.click();
 	});
 	//初始化表情
-	var page=0;
-	var MaxEmoji=90;
 	initEmoji();
 });
 
