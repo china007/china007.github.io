@@ -25,6 +25,8 @@ $(function() {
 		selectFile.click();
 	});
 	//初始化表情
+	var page=0;
+	var MaxEmoji=90;
 	initEmoji();
 });
 
@@ -504,8 +506,6 @@ function hideImg0(){
 /**
  * 初始化默认表情
  */
-var page=0;
-var MaxEmoji=90;
 function initEmoji(){
 	var MAXROW=4;
 	var MAXCOL=9;
