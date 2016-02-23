@@ -22,7 +22,7 @@ var MaxEmoji=90;
 //服务器
 BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
-/*//检查是否已登陆
+//检查是否已登陆
 var currentUser = Bmob.User.current();
 var lastTime ="";
 if (currentUser) {
@@ -33,7 +33,7 @@ if (currentUser) {
 	console.log("未登陆");
 	window.location.href='./';
 	// show the signup or login page
-}*/
+}
 
 var userList={};
 userList["All"]={"name":"群聊","chatLastTime":""};
