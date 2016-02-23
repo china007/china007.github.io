@@ -252,7 +252,6 @@ function getHistory(){
 	  		}
 			if(results.length!=0){
 				var lastMsg = results[results.length-1];
-				lastMsg.get('sendFrom')==userId?
 				changeSendTo(lastMsg.get('sendFrom')==userId?lastMsg.get('sendTo'):lastMsg.get('sendFrom'));
 				scollToEnd();
 			}else{
