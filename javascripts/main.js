@@ -40,8 +40,6 @@ userList["All"]={"name":"群聊","chatLastTime":""};
 getUserList();
 $(function() {
 
-	//取得历史消息
-	getHistory();
 	saveIp();
 	$("#fileImg").click(function() {
 		var selectFile = document.getElementById("selectFile");
@@ -104,6 +102,8 @@ function getUserList(){
 						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username"),"chatLastTime":""};
 					}
 					showFrindTab();
+					//取得历史消息
+					getHistory();
 				}
 				else{
 					console.log("没有用户信息");
