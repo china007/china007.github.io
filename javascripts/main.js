@@ -253,7 +253,7 @@ function getHistory(){
 			if(results.length!=0){
 				var lastMsg = results[results.length-1];
 				var sendF=lastMsg.get('sendFrom');
-				var sendT=lastMsg.get('sendT');
+				var sendT=lastMsg.get('sendTo');
 				var tabid ="All";
 				if(sendT!="All"){
 					tabid = sendF==userId?sendT:sendF;
