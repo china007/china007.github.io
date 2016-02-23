@@ -1,6 +1,6 @@
 /**
  *自适应各种手机模式
- */
+
 var phoneWidth = parseInt(window.screen.width);
 var phoneScale = phoneWidth / 320;
 var ua = navigator.userAgent;
@@ -14,7 +14,7 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 } else {
 	document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
 }
-
+ */
 var page=0;
 var MaxEmoji=90;
 $(function() {
