@@ -251,7 +251,9 @@ function getHistory(){
 			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
 			if(results.length!=0){
-				changeSendTo(results[results.length-1].get('sendFrom'));
+				var lastMsg = results[results.length-1];
+				lastMsg.get('sendFrom')==userId?
+				changeSendTo(lastMsg.get('sendFrom')==userId?lastMsg.get('sendTo'):lastMsg.get('sendFrom'));
 				scollToEnd();
 			}else{
 				changeSendTo("All");
