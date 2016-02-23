@@ -251,7 +251,7 @@ function getHistory(){
 			    //alert(object.id + ' - ' + object.get('playerName'));
 	  		}
 			if(results.length!=0){
-				changeSendTo(results[results.length-1].get('sendTo'));
+				changeSendTo(results[results.length-1].get('sendFrom'));
 				scollToEnd();
 			}else{
 				changeSendTo("All");
