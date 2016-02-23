@@ -252,7 +252,13 @@ function getHistory(){
 	  		}
 			if(results.length!=0){
 				var lastMsg = results[results.length-1];
-				changeSendTo(lastMsg.get('sendFrom')==userId?lastMsg.get('sendTo'):lastMsg.get('sendFrom'));
+				var sendF=lastMsg.get('sendFrom');
+				var sendT=lastMsg.get('sendT');
+				var tabid ="All";
+				if(sendT!="All"){
+					tabid = sendF==userId?sendT:sendF;
+				}
+				changeSendTo(tabid);
 				scollToEnd();
 			}else{
 				changeSendTo("All");
