@@ -1,4 +1,4 @@
-//自适应各种手机模式
+/*//自适应各种手机模式
 var phoneWidth = parseInt(window.screen.width);
 var phoneScale = phoneWidth / 320;
 var ua = navigator.userAgent;
@@ -11,11 +11,11 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 	}
 } else {
 	document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
-}
-
+}*/
+//服务器
+Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 	function sign(){
-		//服务器
-		Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
+
 		var user = new Bmob.User();
 		user.set("username", document.getElementById("userId").value);
 		user.set("password", document.getElementById("userPass").value);
@@ -45,8 +45,6 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 			$$('.register').setStyle('display', ''); 
 			$$('.login').setStyle('display', 'none'); 
 		}else{
-			//服务器
-			Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 
 			var UserInfo = Bmob.Object.extend("_User");
 			var queryName = new Bmob.Query(UserInfo);
@@ -79,9 +77,6 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 		}
 		
 		//唯一性检查
-		//服务器
-		Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
-		
 		var UserInfo = Bmob.Object.extend("_User");
 		var queryMail = new Bmob.Query(UserInfo);
 		queryMail.equalTo("email", email); 
@@ -135,8 +130,6 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 	}
 
 	function login(){
-		//服务器
-		Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
 		var UserInfo = Bmob.Object.extend("_User");
 		var query = new Bmob.Query(UserInfo);
 		query.equalTo("username", document.getElementById("userId").value); 

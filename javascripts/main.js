@@ -15,9 +15,29 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 	document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
 }
  */
+var Sys = {};
 bowerInfo();
 var page=0;
 var MaxEmoji=90;
+//服务器
+BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
+Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
+/*//检查是否已登陆
+var currentUser = Bmob.User.current();
+var lastTime ="";
+if (currentUser) {
+	console.log("已登陆");
+	// 取得userId
+	var userId = currentUser.id;
+} else {
+	console.log("未登陆");
+	window.location.href='./';
+	// show the signup or login page
+}*/
+
+var userList={};
+userList["All"]={"name":"群聊","chatLastTime":""};
+getUserList();
 $(function() {
 
 	//取得历史消息
@@ -35,7 +55,6 @@ $(function() {
  *
  */
  function bowerInfo(){
-		var Sys = {};
         var ua = navigator.userAgent.toLowerCase();
         var s;
         (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1] :
@@ -71,25 +90,7 @@ function showFrindTab(){
 	document.getElementById('mycontent').innerHTML=innerTabStr;
 }
 
-//服务器
-BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
-Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
-//检查是否已登陆
-var currentUser = Bmob.User.current();
-var lastTime ="";
-if (currentUser) {
-	console.log("已登陆");
-	// 取得userId
-	var userId = currentUser.id;
-} else {
-	console.log("未登陆");
-	window.location.href='./';
-	// show the signup or login page
-}
 
-var userList={};
-userList["All"]={"name":"群聊","chatLastTime":""};
-getUserList();
 /** 
  * 查询所有用户
  */
@@ -177,7 +178,9 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 		if(data.sendFrom!=userId){
 			getMsg(data.sendFrom, data.sendTo, data.createdAt, data.content);
 			scollToEnd();
-			notify(data.content,userList[data.sendFrom].img,data.name + data.createdAt.substring(11));
+			if (Sys.chrome) {
+				notify(data.content,userList[data.sendFrom].img,data.name + data.createdAt.substring(11));
+			}
 		}
 	}
 };
@@ -230,7 +233,7 @@ $('#content').keydown(function (e) {
 	
 //取得历史消息
 function getHistory(){
-	var name = currentUser.attributes.username;
+	//var name = currentUser.attributes.username;
 	var Chat = Bmob.Object.extend("Chat");
 	var query = new Bmob.Query(Chat);
 	query.ascending('createdAt');
@@ -374,8 +377,10 @@ function notify(theBody,theIcon,theTitle){
 	  // At last, if the user has denied notifications, and you 
 	  // want to be respectful there is no need to bother them any more.
 	} 
+if (Sys.chrome) {
 //获取消息提醒权限
 Notification.requestPermission(); 
+}
 function spawnNotification(theBody,theIcon,theTitle) {
 	  var options = {
 		  body: theBody,
