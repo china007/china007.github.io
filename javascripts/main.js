@@ -179,7 +179,7 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 			getMsg(data.sendFrom, data.sendTo, data.createdAt, data.content);
 			scollToEnd();
 			if (Sys.chrome) {
-				notify(data.content,userList[data.sendFrom].img,data.name + data.createdAt.substring(11));
+				notify(data.content,userList[data.sendFrom].img,userList[data.sendFrom].name + data.createdAt.substring(11));
 			}
 		}
 	}
