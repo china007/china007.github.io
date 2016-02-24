@@ -19,6 +19,7 @@ var Sys = {};
 bowerInfo();
 var page=0;
 var MaxEmoji=90;
+var userInfoViewUserId="";
 //服务器
 BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
@@ -43,6 +44,10 @@ $(function() {
 
 	saveIp();
 	$("#fileImg").click(function() {
+		var selectFile = document.getElementById("selectFile");
+		selectFile.click();
+	});
+	$("#infoImg").click(function() {
 		var selectFile = document.getElementById("selectFile");
 		selectFile.click();
 	});
@@ -325,7 +330,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
 	if (!isEmptyObject(userList[senderId].img)) {
-		p += '<div><img class="headImg" onclick=showUserInfoView("'+senderId+'"); src="'+userList[senderId].img+'"';
+		p += '<div><img class="headImg '+senderId+'Img" onclick=showUserInfoView("'+senderId+'"); src="'+userList[senderId].img+'"';
 	}else{
 		p += '<div><img class="headImg" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
 	}
@@ -505,26 +510,46 @@ function fileUpload() {
 		file.save().then(function(obj) {
 			fileUrl = obj.url();
 			
-			//判断上传文件为图片
-			if(file._guessedType.indexOf("image")==0){
-				if(size > 15000){
-					Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
-					).then(function(obj) {
-						// console.log("filename:"+obj.filename); 
-						// console.log("url:"+obj.url); 
-						//本页面跳转到原图，后退有bug
-						//sendMsg("<a href='"+fileUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
-						//新打开窗口显示原图
-						//sendMsg("<img onclick=window.open('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-						//历史消息窗口显示原图，点击原图返回前页面
-						sendMsg("<img onclick=showImg0('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-					});
-				}else{
-					sendMsg("<img src='"+fileUrl+"'/>");
+			if($('#userInfoView').display != 'none'){
+				//用户信息视图
+				if(file._guessedType.indexOf("image")==0){
+					if(size > 15000){
+						Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":30,"height":30}
+						).then(function(obj) {
+							userList[userInfoViewUserId].img="http://file.bmob.cn/"+obj.url;
+						});
+						updateUserInfo("img",obj.url);
+					}else{
+						userList[userInfoViewUserId].img=fileUrl;
+						updateUserInfo("img",fileUrl);
+					}
+					$("."+userInfoViewUserId+"Img").each(function(){this.src=fileUrl});
+					showUserInfoView(userInfoViewUserId);
+					updateUserInfo("img0",fileUrl);
 				}
 			}else{
-				//上传文件非图片,target设定打开新标签
-				sendMsg("<a href='"+fileUrl+"' target='_blank'>"+name+"</a>");
+				//聊天视图
+				//判断上传文件为图片
+				if(file._guessedType.indexOf("image")==0){
+					if(size > 15000){
+						Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
+						).then(function(obj) {
+							// console.log("filename:"+obj.filename); 
+							// console.log("url:"+obj.url); 
+							//本页面跳转到原图，后退有bug
+							//sendMsg("<a href='"+fileUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
+							//新打开窗口显示原图
+							//sendMsg("<img onclick=window.open('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
+							//历史消息窗口显示原图，点击原图返回前页面
+							sendMsg("<img onclick=showImg0('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
+						});
+					}else{
+						sendMsg("<img src='"+fileUrl+"'/>");
+					}
+				}else{
+					//上传文件非图片,target设定打开新标签
+					sendMsg("<a href='"+fileUrl+"' target='_blank'>"+name+"</a>");
+				}
 			}
 		}, function(error) {
 			console.log("file upload error"+error);
@@ -612,10 +637,28 @@ function showOrHideEmoji(button){
 	 $("#infoTel")[0].innerHTML=userList[userid].tel;
 	 $("#userInfoView").show();
 	 $("#chatView").hide();
-	 console.log(userid);
+	 userInfoViewUserId=userid;
  }
  
  function hideUserInfoView(){
 	 $("#userInfoView").hide();
 	 $("#chatView").show();
  }
+ 
+ 
+/**
+ * 更新个人信息
+ */
+function updateUserInfo(col,imgUrl){
+	var UserInfo = Bmob.Object.extend("_User");
+	var queryName = new Bmob.Query(UserInfo);
+	queryName.get(userInfoViewUserId, {
+		success: function(results) {
+				results.set(col, imgUrl);
+				results.save();
+		},
+		error: function(error) {
+			console.log("Error: " + error.code + " " + error.message);
+		}
+	});
+}
