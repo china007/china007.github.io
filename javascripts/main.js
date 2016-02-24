@@ -100,7 +100,7 @@ function getUserList(){
 			success: function(results) {
 				if(results.length > "0"){
 					for (i in results) {
-						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username"),"chatLastTime":""};
+						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username"),"chatLastTime":"","mail":results[i].get("email"),"tel":results[i].get("mobilePhoneNumber")};
 					}
 					showFrindTab();
 					//取得历史消息
@@ -325,7 +325,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
 	if (!isEmptyObject(userList[senderId].img)) {
-		p += '<div><img class="headImg" src="'+userList[senderId].img+'"';
+		p += '<div><img class="headImg" onclick=showUserInfoView("'+senderId+'"); src="'+userList[senderId].img+'"';
 	}else{
 		p += '<div><img class="headImg" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
 	}
@@ -601,4 +601,21 @@ function showOrHideEmoji(button){
  function sendEmoji(index){
 	 showOrHideEmoji(document.getElementById("openEmojiBtn"));
 	 sendMsg("<img src='images/emoji/"+index+".gif'></img>");
+ }
+ 
+ 
+ function showUserInfoView(userid){
+	 // $("#userInfoView").
+	 $("#infoImg")[0].src=userList[userid].img;
+	 $("#infoName")[0].innerHTML=userList[userid].name;
+	 $("#infoMail")[0].innerHTML=userList[userid].mail;
+	 $("#infoTel")[0].innerHTML=userList[userid].tel;
+	 $("#userInfoView").show();
+	 $("#chatView").hide();
+	 console.log(userid);
+ }
+ 
+ function hideUserInfoView(){
+	 $("#userInfoView").hide();
+	 $("#chatView").show();
  }

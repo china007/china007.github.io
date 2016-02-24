@@ -13,30 +13,42 @@
     <script src="javascripts/main.js"></script>
 </head>
 <body>
-	<div id="dHead">
-	<ul id="menu" class="menu">
-	</ul>
-	</div>
-	<div id="dBody">
-	<div id="imgDiv" onclick="hideImg0();" style="display:none;height:100%">
-	</div>
-	<div id="mycontent">
-	</div>
-	</div>
-	<div id="emoji" style="float:bottom;display:none"></div>
-	<div id="dFoot">
-		<div id="fileUploadDiv">
-			<input type="file" id="selectFile" style="display:none;" onchange="fileUpload()"/>
-			<img style="width:100%;height:100%" id="fileImg" src="./images/fileUpload0.png" title="参照"/>
+	<div id="userInfoView" onclick="hideUserInfoView();" style="margin:50px;display:none;height:100%">
+		<div style="float:left;width:20%">
+			<img style="width:100%" id="infoImg" src=""></img>
 		</div>
-		<div id="leftDiv"><textarea placeholder="送信内容" id="content"></textarea></div>
-		<div id="rightDiv">
-			<!--div id="nameDiv"><input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);"value="+"></input>
-			<input type="text" placeholder="昵称" id="name"readonly="readonly"/></div-->
+		<div style="color:yellow;float:left;width:80%">
+			<div>昵称:<span style="color:White;" id="infoName"></span></div>
+			<div>邮箱:<span style="color:White;" id="infoMail"></span></div>
+			<div>电话:<span style="color:White;" id="infoTel"></span></div>
+		</div>
+	</div>
+	<div id="chatView">
+		<div id="dHead">
+		<ul id="menu" class="menu">
+		</ul>
+		</div>
+		<div id="dBody">
+		<div id="imgDiv" onclick="hideImg0();" style="display:none;height:100%">
+		</div>
+		<div id="mycontent">
+		</div>
+		</div>
+		<div id="emoji" style="float:bottom;display:none"></div>
+		<div id="dFoot">
+			<div id="fileUploadDiv">
+				<input type="file" id="selectFile" style="display:none;" onchange="fileUpload()"/>
+				<img style="width:100%;height:100%" id="fileImg" src="./images/fileUpload0.png" title="参照"/>
+			</div>
+			<div id="leftDiv"><textarea placeholder="送信内容" id="content"></textarea></div>
+			<div id="rightDiv">
+				<!--div id="nameDiv"><input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);"value="+"></input>
+				<input type="text" placeholder="昵称" id="name"readonly="readonly"/></div-->
 
-			<div id="sendDiv">
-			<input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);page=0;initEmoji();"value="+"/>
-			<input type="button" onclick="sendMsg();this.disabled=true;setTimeout('send.disabled=false',1000);" value="送信" id="send"/></div>
+				<div id="sendDiv">
+				<input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);page=0;initEmoji();"value="+"/>
+				<input type="button" onclick="sendMsg();this.disabled=true;setTimeout('send.disabled=false',1000);" value="送信" id="send"/></div>
+			</div>
 		</div>
 	</div>
 	<script>

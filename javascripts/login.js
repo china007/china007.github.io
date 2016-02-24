@@ -20,7 +20,7 @@ Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a68
 		user.set("username", document.getElementById("userId").value);
 		user.set("password", document.getElementById("userPass").value);
 		user.set("email", document.getElementById("userEmail").value);
-		user.set("phone", document.getElementById("userTel").value);
+		user.set("mobilePhoneNumber", document.getElementById("userTel").value);
 		
 		//默认头像
 		user.set("img", "https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif");
@@ -112,7 +112,7 @@ Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a68
 		
 		var UserInfo = Bmob.Object.extend("_User");
 		var queryTel = new Bmob.Query(UserInfo);
-		queryTel.equalTo("phone", tel); 
+		queryTel.equalTo("mobilePhoneNumber", tel); 
 		// 查询电话
 		queryTel.find({
 			success: function(results) {
@@ -204,3 +204,17 @@ Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a68
 				}
 		});
 	}
+	
+	/**
+	  * 用户名密码检查
+	  */
+	function checkUser(){
+		Bmob.Cloud.run('checkUser', {"username":document.getElementById("userId").value,"password":document.getElementById("userPass").value}, {
+			success: function(result) {
+				console.log(result+" login success!");
+				document.getElementById("formRegister").submit();
+			},
+			error: function(error) {
+			}
+		})
+	}  
