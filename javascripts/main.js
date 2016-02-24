@@ -22,6 +22,7 @@ var MaxEmoji=90;
 //服务器
 BmobSocketIo.initialize("4733f138065d979e5bea5a43bd4bdf0a");
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
+
 //检查是否已登陆
 var currentUser = Bmob.User.current();
 var lastTime ="";
@@ -307,7 +308,7 @@ function compareDate(dateStr1, dateStr2){
  
 //消息拼接
 function getMsg(senderId, sendToId, sendTime,sendContent){
-	var tabId="";
+	var tabId="All";
 	if(senderId==userId || sendToId == "All"){
 		tabId=sendToId;
 	}else{
@@ -448,6 +449,7 @@ function saveIp(){
  */
 var sendToId ="All";
 function changeSendTo(sendTo){
+	if(isEmptyObject(sendTo))sendTo ="All";
 	sendToId=sendTo;
 	$(".chatTab").hide();
 	$("#data"+sendToId).show();
@@ -484,11 +486,10 @@ function getFriendList(){
 }
 
 /**
- * 图片文件上传
+ * 图片Or文件上传
  * 
  */
-
-var chatImgsUrl="";
+var fileUrl="";
 function fileUpload() {
 	// ファイル名のみ取得して表示します
 	var selectFile = document.getElementById("selectFile").value;
@@ -502,21 +503,28 @@ function fileUpload() {
 		var name = array[array.length - 1];
 		var file = new Bmob.File(name, file);     
 		file.save().then(function(obj) {
-			chatImgsUrl = obj.url();
-			if(size > 15000){
-				Bmob.Image.thumbnail({"image":chatImgsUrl,"mode":4,"quality":100,"width":100,"height":200}
-				).then(function(obj) {
-					// console.log("filename:"+obj.filename); 
-					// console.log("url:"+obj.url); 
-					//本页面跳转到原图，后退有bug
-					//sendMsg("<a href='"+chatImgsUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
-					//新打开窗口显示原图
-					//sendMsg("<img onclick=window.open('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-					//历史消息窗口显示原图，点击原图返回前页面
-					sendMsg("<img onclick=showImg0('"+chatImgsUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-				});
+			fileUrl = obj.url();
+			
+			//判断上传文件为图片
+			if(file._guessedType.indexOf("image")==0){
+				if(size > 15000){
+					Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
+					).then(function(obj) {
+						// console.log("filename:"+obj.filename); 
+						// console.log("url:"+obj.url); 
+						//本页面跳转到原图，后退有bug
+						//sendMsg("<a href='"+fileUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
+						//新打开窗口显示原图
+						//sendMsg("<img onclick=window.open('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
+						//历史消息窗口显示原图，点击原图返回前页面
+						sendMsg("<img onclick=showImg0('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
+					});
+				}else{
+					sendMsg("<img src='"+fileUrl+"'/>");
+				}
 			}else{
-				sendMsg("<img src='"+chatImgsUrl+"'/>");
+				//上传文件非图片,target设定打开新标签
+				sendMsg("<a href='"+fileUrl+"' target='_blank'>"+name+"</a>");
 			}
 		}, function(error) {
 			console.log("file upload error"+error);
