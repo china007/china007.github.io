@@ -48,8 +48,11 @@ $(function() {
 		selectFile.click();
 	});
 	$("#infoImg").click(function() {
-		var selectFile = document.getElementById("selectFile");
-		selectFile.click();
+		//只能上传自己的头像
+		if(userInfoViewUserId==userId){
+			var selectFile = document.getElementById("selectFile");
+			selectFile.click();
+		}
 	});
 	//初始化表情
 	initEmoji();
