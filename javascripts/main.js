@@ -190,8 +190,7 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 			if (Sys.chrome) {
 				if(data.content.indexOf("<img")==0){
 					data.content="发送过来一个表情，请打开浏览器查看";
-				}				
-				if(data.content.indexOf("<a")==0){
+				}else if(data.content.indexOf("<a")==0){
 					data.content="发送过来一个文件，请打开浏览器查看";
 				}
 				notify(data.content,userList[data.sendFrom].img,userList[data.sendFrom].name +"  "+ data.createdAt.substring(11));
