@@ -14,6 +14,7 @@ if (/Android (\d+\.\d+)/.test(ua)) {
 }*/
 //服务器
 Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a6822a1c");
+var headImg0="";
 	function sign(){
 
 		var user = new Bmob.User();
@@ -21,12 +22,19 @@ Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a68
 		user.set("password", document.getElementById("userPass").value);
 		user.set("email", document.getElementById("userEmail").value);
 		user.set("mobilePhoneNumber", document.getElementById("userTel").value);
-		
-		//默认头像
-		user.set("img", "https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif");
+		//设置头像
+		user.set("img", document.getElementById("headImg").src);
+		user.set("img0", headImg0);
 
 		user.signUp(null, {
 		  success: function(user) {
+			//用户读取权限更新
+			var json = {"*":{"read":true}};
+			json[user.id] = {"read":true,"write":true};
+			//ALC设置
+			user.set("ACL",json);
+			user.save();
+			
 			console.log("sign success");
 			alert("注册成功，即将跳往登陆页面！");
 			saveIp(user.id);
@@ -218,3 +226,48 @@ Bmob.initialize("4733f138065d979e5bea5a43bd4bdf0a", "e78ae2b9cf7e63e9066f6336a68
 			}
 		})
 	}  
+	
+	/**
+	 * 用户头像上传
+	 */
+	function uploadHeadImg(){
+		var selectFile = document.getElementById("selectFile");
+		selectFile.click();
+	}
+	
+	function fileUpload() {
+	// ファイル名のみ取得して表示します
+	var selectFile = document.getElementById("selectFile").value;
+	var regex = /\\|\\/;
+	var array = selectFile.split(regex);
+	
+	var fileUploadControl = $("selectFile");
+	if (fileUploadControl.files.length > 0) {
+		var file = fileUploadControl.files[0];
+		var size = file.size;
+		var name = array[array.length - 1];
+		var file = new Bmob.File(name, file);     
+		file.save().then(function(obj) {
+			headImg0 = obj.url();
+			
+			//用户信息视图
+			if(file._guessedType.indexOf("image")==0){
+				if(size > 15000){
+					Bmob.Image.thumbnail({"image":headImg0,"mode":4,"quality":100,"width":30,"height":30}).then(function(obj) {
+						headImg="http://file.bmob.cn/"+obj.url;
+						$$("img").setProperty("src",headImg);
+					});
+				}else{
+					$$("img").setProperty("src",headImg0);
+				}
+			}else(
+				showErr("图片格式不正确！")
+			)
+		}, function(error) {
+			console.log("headimg upload error"+error);
+		});
+
+	}else{
+		console.log("headimg upload error");
+	}
+};
