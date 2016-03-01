@@ -88,7 +88,7 @@ function showFrindTab(){
 	var innerTabStr='';
 	for(var k in userList){
 		if(k!=userId){
-			innerMenuStr+='<li class=menu'+k+'><a id=menu'+k+' class="chatMenu" onclick=changeSendTo("'+k+'")><span>'+userList[k].name+'</span></a><span class="msgCount">'+userList[k].unRead+'</span></li>';
+			innerMenuStr+='<li class=menu'+k+'><a id=menu'+k+' class="chatMenu" onclick=changeSendTo("'+k+'")><span>'+userList[k].name+'</span></a><span onclick=changeSendTo("'+k+'") class="msgCount">'+userList[k].unRead+'</span></li>';
 			innerTabStr +='<div id=data'+k+'  class="chatTab"></div>';
 		}
 	}
