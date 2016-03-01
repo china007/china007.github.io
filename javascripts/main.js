@@ -709,6 +709,7 @@ function showUnReadMsg(tabId){
  */
 function strToLink(text) 
 { 
+	//用户上传得文件或图片的情况
 	if(text.indexOf("<a") == 0 || text.indexOf("<img") == 0) return text;
 	return text.replace(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig, "<a href='$&' target='_blank'>$&</a>");
 }
