@@ -328,7 +328,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 		tabId=senderId;
 	}
 	//已删除用户消息不显示
-	if(!isEmptyObject(userList[senderId]))return;
+	if(!isEmptyObject(userList[tabId]))return;
 	var content = $("#data" + tabId);
 	//clear: bothを指定すればfloatによる回り込みをキャンセル出来ます。
 	var p = '<div style="clear:both"><br>';
