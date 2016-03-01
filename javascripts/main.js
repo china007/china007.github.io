@@ -77,7 +77,7 @@ $(function() {
         if (Sys.opera) document.write('Opera: ' + Sys.opera);
         if (Sys.safari) document.write('Safari: ' + Sys.safari);*/
 		if (Sys.safari){
-			document.write('<meta name="viewport" content="width=320">');
+			document.write('<meta name="viewport" content="width=320, user-scalable=no, target-densitydpi=device-dpi">');
 		}
  }
 /**
