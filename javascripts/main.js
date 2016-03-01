@@ -353,9 +353,9 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 		p += '<div><img class="headImg" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
 	}
 	if(senderId==userId){
-		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + sendContent + '</div></div></div>';
+		p += 'style="float:right;"><div class="send historyRight"><div class="rightArrow"></div>' + strToLink(sendContent) + '</div></div></div>';
 	}else{
-		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + sendContent + '</div></div></div>';
+		p += 'style="float:left;"><div class="send"><div class="leftArrow"></div>' + strToLink(sendContent) + '</div></div></div>';
 	}
 	userList[tabId].chatLastTime = sendTime;
 	content.html(content.html() + p);
@@ -409,8 +409,8 @@ function notify(theBody,theIcon,theTitle){
 	  // want to be respectful there is no need to bother them any more.
 	} 
 if (Sys.chrome) {
-//获取消息提醒权限
-Notification.requestPermission(); 
+	//获取消息提醒权限
+	Notification.requestPermission(); 
 }
 function spawnNotification(theBody,theIcon,theTitle) {
 	  var options = {
@@ -702,4 +702,13 @@ function showUnReadMsg(tabId){
 		tab.show();
 	}
 	
+}
+
+/**
+ * 查找字符串中的链接，并替换成链接
+ */
+function strToLink(text) 
+{ 
+	if(text.indexOf("<a") == 0 || text.indexOf("<img") == 0) return text;
+	return text.replace(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig, "<a href='$&' target='_blank'>$&</a>");
 }
