@@ -38,7 +38,7 @@ if (currentUser) {
 }
 
 var userList={};
-userList["All"]={"name":"群聊","chatLastTime":""};
+userList["All"]={"name":"群聊","chatLastTime":"","unRead":"0"};
 getUserList();
 $(function() {
 
@@ -59,7 +59,7 @@ $(function() {
 });
 
 /**
- *
+ * 
  */
  function bowerInfo(){
         var ua = navigator.userAgent.toLowerCase();
@@ -88,7 +88,7 @@ function showFrindTab(){
 	var innerTabStr='';
 	for(var k in userList){
 		if(k!=userId){
-			innerMenuStr+='<li><a id=menu'+k+' class="chatMenu" onclick=changeSendTo("'+k+'")><span>'+userList[k].name+'</span></a></li>';
+			innerMenuStr+='<li class=menu'+k+'><a id=menu'+k+' class="chatMenu" onclick=changeSendTo("'+k+'")><span>'+userList[k].name+'</span></a><span class="msgCount">'+userList[k].unRead+'</span></li>';
 			innerTabStr +='<div id=data'+k+'  class="chatTab"></div>';
 		}
 	}
@@ -108,7 +108,7 @@ function getUserList(){
 			success: function(results) {
 				if(results.length > "0"){
 					for (i in results) {
-						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username"),"chatLastTime":"","mail":results[i].get("email"),"tel":results[i].get("mobilePhoneNumber")};
+						userList[results[i].id]={"img":results[i].get("img"),"name":results[i].get("username"),"chatLastTime":"","unRead":"0","mail":results[i].get("email"),"tel":results[i].get("mobilePhoneNumber")};
 					}
 					showFrindTab();
 					//取得历史消息
@@ -186,6 +186,13 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 		// 不是自己发送的消息则显示提示
 		if(data.sendFrom!=userId){
 			getMsg(data.sendFrom, data.sendTo, data.createdAt, data.content);
+			if(data.sendTo!="All"){
+				userList[data.sendFrom].unRead++;
+				showUnReadMsg(data.sendFrom);
+			}else{
+				userList["All"].unRead++;
+				showUnReadMsg("All");
+			}
 			scollToEnd();
 			if (Sys.chrome) {
 				if(data.content.indexOf("<img")==0){
@@ -329,6 +336,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 	}
 	//已删除用户消息不显示
 	if(isEmptyObject(userList[tabId]))return;
+
 	var content = $("#data" + tabId);
 	//clear: bothを指定すればfloatによる回り込みをキャンセル出来ます。
 	var p = '<div style="clear:both"><br>';
@@ -470,6 +478,10 @@ var sendToId ="All";
 function changeSendTo(sendTo){
 	if(isEmptyObject(sendTo))sendTo ="All";
 	sendToId=sendTo;
+	if(userList[sendTo].unRead!="0"){
+		userList[sendToId].unRead="0";
+		showUnReadMsg(sendToId);
+	}
 	$(".chatTab").hide();
 	$("#data"+sendToId).show();
 	$(".chatMenu").removeClass("active");
@@ -675,4 +687,19 @@ function updateUserInfo(col,imgUrl){
 			console.log("Error: " + error.code + " " + error.message);
 		}
 	});
+}
+
+/**
+ * 未读消息提示数目
+ */
+function showUnReadMsg(tabId){
+	var tab = $(".menu"+tabId+" .msgCount");
+	var unread = userList[tabId].unRead;
+	if(unread==0){
+		tab.hide();
+	}else{
+		tab[0].innerHTML = userList[tabId].unRead;
+		tab.show();
+	}
+	
 }

@@ -194,6 +194,29 @@ th, td
   border: 0px solid gray;
 }
 
+/*未读消息数提示*/
+.msgCount{
+  box-sizing: border-box;
+  border-radius: 12px;
+  width: 24px;
+  height: 24px;
+  background: #f69c00;
+  display: inline-block;
+  text-align: center;
+  line-height: 22px;
+  color: #fff;
+  /*border: 2px solid #0ca5b0;
+  position: absolute;*/
+  top: 0;
+  left: 52%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  vertical-align: middle;
+  cursor: pointer;
+  float:left;
+  margin-left:-15px;
+  display:none;
+}
 
 /*
  *MenuStyle 
@@ -201,7 +224,7 @@ th, td
  */
 
 .menu{margin:0 auto; padding:0; height:30px; width:100%; display:block; background:url('../images/topMenuImages.png') repeat-x;}
-.menu li{padding:0; margin:0; list-style:none; display:inline;}
+.menu li{padding:0; margin:0; list-style:none; display:inline;  position: relative;}
 .menu li a{float:left; padding-left:15px; display:block; color:rgb(32,190,247); text-decoration:none; font:12px Verdana, Arial, Helvetica, sans-serif; cursor:pointer; background:url('../images/topMenuImages.png') 0px -30px no-repeat;}
 .menu li a span{line-height:30px; float:left; display:block; padding-right:15px; background:url('../images/topMenuImages.png') 100% -30px no-repeat;}
 .menu li a:hover{background-position:0px -60px; color:rgb(255,255,255);}
