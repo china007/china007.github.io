@@ -327,6 +327,8 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 	}else{
 		tabId=senderId;
 	}
+	//已删除用户消息不显示
+	if(!isEmptyObject(userList[senderId]))return;
 	var content = $("#data" + tabId);
 	//clear: bothを指定すればfloatによる回り込みをキャンセル出来ます。
 	var p = '<div style="clear:both"><br>';
@@ -337,7 +339,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 	if(compareDate(sendTime,userList[tabId].chatLastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
-	if (!isEmptyObject(userList[senderId]) && !isEmptyObject(userList[senderId].img)) {
+	if (!isEmptyObject(userList[senderId].img)) {
 		p += '<div><img class="headImg '+senderId+'Img" onclick=showUserInfoView("'+senderId+'"); src="'+userList[senderId].img+'"';
 	}else{
 		p += '<div><img class="headImg" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
