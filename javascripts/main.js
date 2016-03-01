@@ -536,7 +536,7 @@ function fileUpload() {
 		file.save().then(function(obj) {
 			fileUrl = obj.url();
 			
-			if($('#userInfoView').display != 'none'){
+			if($('#userInfoView')[0].style.display != 'none'){
 				//用户信息视图
 				if(file._guessedType.indexOf("image")==0){
 					if(size > 15000){
