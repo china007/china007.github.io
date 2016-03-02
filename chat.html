@@ -3,10 +3,15 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-	<!--禁用屏幕边缘果冻效果IOS-->
+	<!--删除默认的苹果工具栏和菜单栏IOS-->
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!--全屏模式，禁止浏览器上下左右滑动-->
+	<meta name="x5-fullscreen" content="true">
+	<meta name="full-screen" content="yes">
+
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/chat.css">
+
     <script src="javascripts/jquery.min.js"></script>
     <script src="javascripts/bmobSocketIo.js"></script>
     <script src="javascripts/bmob.js"></script>
@@ -15,7 +20,7 @@
 <body>
 	<div id="userInfoView"  style="margin:50px;display:none;height:100%">
 		<div style="float:left;width:20%">
-			<img style="width:100%" id="infoImg" src=""></img>
+			<img style="width:100%" id="infoImg" src=""/>
 		</div>
 		<div style="color:yellow;float:left;width:80%">
 			<div>昵称:<span style="color:White;" id="infoName"></span></div>
@@ -47,7 +52,7 @@
 				<input type="text" placeholder="昵称" id="name"readonly="readonly"/></div-->
 
 				<div id="sendDiv">
-				<input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);page=0;initEmoji();"value="+"/>
+				<input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);page=0;initEmoji();" value="+"/>
 				<input type="button" onclick="sendMsg();this.disabled=true;setTimeout('send.disabled=false',1000);" value="送信" id="send"/></div>
 			</div>
 		</div>

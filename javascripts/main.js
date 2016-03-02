@@ -617,7 +617,7 @@ function initEmoji(){
 				if(row==MAXROW-1&&col==MAXCOL-1){
 					htmlStr+="<td><input type='button' value='⇒' onclick='initEmoji();'></td>";
 				}else{
-					htmlStr+="<td><img src='images/emoji/"+index+".gif' onclick='sendEmoji("+index+");'></img></td>";
+					htmlStr+="<td><img src='images/emoji/"+index+".gif' onclick='sendEmoji("+index+");'/></td>";
 				}
 			}else{
 				htmlStr+="<td></td>";
@@ -651,7 +651,7 @@ function showOrHideEmoji(button){
  */
  function sendEmoji(index){
 	 showOrHideEmoji(document.getElementById("openEmojiBtn"));
-	 sendMsg("<img src='images/emoji/"+index+".gif'></img>");
+	 sendMsg("<img src='images/emoji/"+index+".gif'/>");
  }
  
  
