@@ -257,38 +257,51 @@ function getHistory(){
 	//var name = currentUser.attributes.username;
 	var Chat = Bmob.Object.extend("Chat");
 	var query = new Bmob.Query(Chat);
-	query.ascending('createdAt');
-	// 查询所有数据
-	query.find({
-		success: function(results) {
-			// alert("共查询到 " + results.length + " 条记录");
-			var startIndex = 0;
-			if(results.length > 20)
-				startIndex=results.length-20;
-			// 循环处理查询到的数据
-			for (startIndex; startIndex < results.length;startIndex++) {
-			    var data = results[startIndex];
-				getMsg(data.get('sendFrom'), data.get('sendTo'), data.createdAt, data.get('content'));
-			    //alert(object.id + ' - ' + object.get('playerName'));
-	  		}
-			if(results.length!=0){
-				var lastMsg = results[results.length-1];
-				var sendF=lastMsg.get('sendFrom');
-				var sendT=lastMsg.get('sendTo');
-				var tabid ="All";
-				if(sendT!="All"){
-					tabid = sendF==userId?sendT:sendF;
+	query.count({
+	  success: function(count) {
+		// 查询成功，返回记录数量
+		//alert("共有 " + count + " 条记录");
+			var Chat = Bmob.Object.extend("Chat");
+			var query = new Bmob.Query(Chat);
+			query.ascending('createdAt');
+			//只显示最后100条数据
+			if(count>100)query.skip(count-100);
+			
+			// 查询所有数据
+			query.find({
+				success: function(results) {
+					var startIndex = 0;
+					/*if(results.length > 20)
+						startIndex=results.length-20;*/
+					// 循环处理查询到的数据
+					for (startIndex; startIndex < results.length;startIndex++) {
+						var data = results[startIndex];
+						getMsg(data.get('sendFrom'), data.get('sendTo'), data.createdAt, data.get('content'));
+						//alert(object.id + ' - ' + object.get('playerName'));
+					}
+					if(results.length!=0){
+						var lastMsg = results[results.length-1];
+						var sendF=lastMsg.get('sendFrom');
+						var sendT=lastMsg.get('sendTo');
+						var tabid ="All";
+						if(sendT!="All"){
+							tabid = sendF==userId?sendT:sendF;
+						}
+						changeSendTo(tabid);
+						scollToEnd();
+					}else{
+						changeSendTo("All");
+					}
+				},
+				error: function(error) {
+					console.log("查询失败: " + error.code + " " + error.message);
 				}
-				changeSendTo(tabid);
-				scollToEnd();
-			}else{
-				changeSendTo("All");
-			}
-		},
-		error: function(error) {
-	  		console.log("查询失败: " + error.code + " " + error.message);
-		}
-	});	
+			});	
+	  },
+	  error: function(error) {
+		// 查询失败
+	  }
+	});
 }
 
 //注销
