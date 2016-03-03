@@ -429,8 +429,12 @@ function spawnNotification(theBody,theIcon,theTitle) {
 		  icon: theIcon
 	  }
 	  var n = new Notification(theTitle,options);
+	  //1秒关闭提示框
+	  setTimeout(n.close.bind(n), 1000);
 	  n.onclick = function() {
-			console.log("You clicked me!");
+		  点击后立即关闭
+		  setTimeout(n.close.bind(n), 1);
+			//console.log("You clicked me!");
 			//window.location = "/";
       };
 	}
