@@ -286,7 +286,7 @@ function getHistory(){
 							tabid = sendF==userId?sendT:sendF;
 						}
 						changeSendTo(tabid);
-						scollToEnd();
+						//scollToEnd();
 					}else{
 						changeSendTo("All");
 					}
