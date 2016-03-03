@@ -46,7 +46,7 @@
 				<input type="file" id="selectFile" style="display:none;" onchange="fileUpload()"/>
 				<img style="width:100%;height:100%" id="fileImg" src="./images/fileUpload0.png" title="参照"/>
 			</div>
-			<div id="leftDiv"><textarea placeholder="送信内容" id="content"></textarea></div>
+			<div id="leftDiv"><textarea placeholder="送信内容(Ctrl + Enter发送消息)" onclick="changeSendTo(sendToId);" id="content"></textarea></div>
 			<div id="rightDiv">
 				<!--div id="nameDiv"><input id="openEmojiBtn" type="button" onclick="showOrHideEmoji(this);"value="+"></input>
 				<input type="text" placeholder="昵称" id="name"readonly="readonly"/></div-->

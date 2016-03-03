@@ -56,6 +56,14 @@ $(function() {
 	});
 	//初始化表情
 	initEmoji();
+	
+	//通过“ctrl+回车”提交聊天信息
+	$('#content').bind("keypress",function (e) {
+		//console.log(e.which);
+		if (e.which === 10) {
+			sendMsg();
+		}
+	});
 });
 
 /**
@@ -185,22 +193,26 @@ BmobSocketIo.onUpdateTable = function (tablename, data) {
 	if (tablename == "Chat") {
 		// 不是自己发送的消息则显示提示
 		if(data.sendFrom!=userId){
-			getMsg(data.sendFrom, data.sendTo, data.createdAt, data.content);
-			if(data.sendTo!="All"){
+			if(data.sendTo==userId){
+				//发送给当前用户的数据
 				userList[data.sendFrom].unRead++;
 				showUnReadMsg(data.sendFrom);
-			}else{
+			}else if(data.sendTo=="All"){
+				//群聊
 				userList["All"].unRead++;
 				showUnReadMsg("All");
 			}
-			scollToEnd();
-			if (Sys.chrome) {
-				if(data.content.indexOf("<img")==0){
-					data.content="发来一个表情，请打开浏览器查看";
-				}else if(data.content.indexOf("<a")==0){
-					data.content="发来一个文件，请打开浏览器查看";
+			if(data.sendTo=="All" || data.sendTo==userId){
+				getMsg(data.sendFrom, data.sendTo, data.createdAt, data.content);
+				scollToEnd();
+				if (Sys.chrome) {
+					if(data.content.indexOf("<img")==0){
+						data.content="发来一个表情，请打开浏览器查看";
+					}else if(data.content.indexOf("<a")==0){
+						data.content="发来一个文件，请打开浏览器查看";
+					}
+					notify(data.content,userList[data.sendFrom].img,userList[data.sendFrom].name +"  "+ data.createdAt.substring(11));
 				}
-				notify(data.content,userList[data.sendFrom].img,userList[data.sendFrom].name +"  "+ data.createdAt.substring(11));
 			}
 		}
 	}
@@ -238,20 +250,6 @@ function changeImg(id,imgUrl){
 }
 */
 
-//通过“回车”提交聊天信息
-$('#name').keydown(function (e) {
-	if (e.keyCode === 13) {
-		sendMsg();
-	}
-});
-
-//通过“回车”提交聊天信息
-$('#content').keydown(function (e) {
-	if (e.keyCode === 13) {
-		sendMsg();
-	}
-});
-	
 //取得历史消息
 function getHistory(){
 	//var name = currentUser.attributes.username;
@@ -432,8 +430,8 @@ function spawnNotification(theBody,theIcon,theTitle) {
 	  }
 	  var n = new Notification(theTitle,options);
 	  n.onclick = function() {
-                alert("You clicked me!");
-                //window.location = "/";
+			console.log("You clicked me!");
+			//window.location = "/";
       };
 	}
 
@@ -542,10 +540,10 @@ function fileUpload() {
 	
 	var fileUploadControl = $("#selectFile")[0];
 	if (fileUploadControl.files.length > 0) {
-		var file = fileUploadControl.files[0];
-		var size = file.size;
+		var file0 = fileUploadControl.files[0];
+		var size = file0.size;
 		var name = array[array.length - 1];
-		var file = new Bmob.File(name, file);     
+		var file = new Bmob.File(name, file0);     
 		file.save().then(function(obj) {
 			fileUrl = obj.url();
 			
@@ -579,7 +577,7 @@ function fileUpload() {
 							//sendMsg("<a href='"+fileUrl+"'><img src='http://file.bmob.cn/"+obj.url+"'/></a>");
 							//新打开窗口显示原图
 							//sendMsg("<img onclick=window.open('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-							//历史消息窗口显示原图，点击原图返回前页面
+							//历史消息隐藏，显示原图，点击原图返回历史消息
 							sendMsg("<img onclick=showImg0('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
 						});
 					}else{
@@ -725,4 +723,33 @@ function strToLink(text)
 	//用户上传得文件或图片的情况
 	if(text.indexOf("<a") == 0 || text.indexOf("<img") == 0) return text;
 	return text.replace(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig, "<a href='$&' target='_blank'>$&</a>");
+}
+
+/**
+ * 判断上传图片长宽
+ * return 
+ *      true:超过最大值
+ *      false:符合规定
+ */
+function testWidthHeight(file){
+	var notAllow = false;
+	var Max_Width = 278;
+
+	debugger;
+
+	//读取图片数据
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		var data = e.target.result;
+		//加载图片获取图片真实宽度和高度
+		var image = new Image();
+		image.onload=function(){
+			var width = image.width;
+			var height = image.height;
+			notAllow = width >= Max_Width;
+			return notAllow;
+		};
+		image.src= data;
+	};
+	reader.readAsDataURL(file);
 }
