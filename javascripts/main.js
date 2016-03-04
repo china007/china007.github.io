@@ -64,10 +64,11 @@ $(function() {
 			sendMsg();
 		}
 	});
+	getImgFromClip();
 });
 
 /**
- * 
+ * 浏览器兼容性处理
  */
  function bowerInfo(){
         var ua = navigator.userAgent.toLowerCase();
@@ -133,14 +134,7 @@ function getUserList(){
 }
 
 function sendMsg(content) {
-	// var name = $("#name").val();
-	// var name = currentUser.attributes.username;
-	content= content!=null?content:$("#content").val();
-
-	// if ($.trim(name) == "") {
-		// alert("昵称不能为空！");
-		// return;
-	// }
+	content= content!=null?content:$("#content")[0].innerHTML;
 
 	if ($.trim(content) == "") {
 		alert("内容不能为空！");
@@ -156,7 +150,6 @@ function sendMsg(content) {
 	chat.set("content", content);
 	chat.set("sendFrom",userId);
 	chat.set("sendTo",sendToId);
-	//chat.set("chatImgs",document.getElementById("selectFile").value);
 	
 	sendTo = sendToId=="All"?"*":sendToId;
 	//用户读取权限控制
@@ -167,7 +160,7 @@ function sendMsg(content) {
 	chat.set("ACL",json);
 	
 	//清空消息
-	$("#content").val("");
+	$("#content")[0].innerHTML="";
 	chat.save(null, {
 		success : function (object) {
 			console.log("送信成功！");
@@ -588,7 +581,7 @@ function fileUpload() {
 						sendMsg("<img src='"+fileUrl+"'/>");
 					}
 				}else{
-					//上传文件非图片,target设定打开新标签
+					//上传文件原图片,target设定打开新标签
 					sendMsg("<a href='"+fileUrl+"' target='_blank'>"+name+"</a>");
 				}
 			}
@@ -632,7 +625,8 @@ function initEmoji(){
 				if(row==MAXROW-1&&col==MAXCOL-1){
 					htmlStr+="<td><input type='button' value='⇒' onclick='initEmoji();'></td>";
 				}else{
-					htmlStr+="<td><img src='images/emoji/"+index+".gif' onclick='sendEmoji("+index+");'/></td>";
+					//htmlStr+="<td><img src='images/emoji/"+index+".gif' onclick='sendEmoji("+index+");'/></td>";
+					htmlStr+="<td><img src='images/emoji/"+index+".gif' onclick='sendEmojiToInputText("+index+");'/></td>";
 				}
 			}else{
 				htmlStr+="<td></td>";
@@ -667,6 +661,10 @@ function showOrHideEmoji(button){
  function sendEmoji(index){
 	 showOrHideEmoji(document.getElementById("openEmojiBtn"));
 	 sendMsg("<img src='images/emoji/"+index+".gif'/>");
+ }
+ function sendEmojiToInputText(index){
+	 showOrHideEmoji(document.getElementById("openEmojiBtn"));
+	 $("#content")[0].innerHTML=$("#content")[0].innerHTML+"<img src='images/emoji/"+index+".gif'/>";
  }
  
  
@@ -757,3 +755,80 @@ function testWidthHeight(file){
 	};
 	reader.readAsDataURL(file);
 }
+
+
+/**
+ * 从剪贴板获取图片
+ */
+function getImgFromClip(){
+	var imgReader = function( item ){
+		var blob = item.getAsFile(),
+			reader = new FileReader();
+			
+		reader.onload = function( e ){
+			var img = new Image();
+			
+			img.src = e.target.result;
+			// $("#content")[0].html=img;
+			// document.body.appendChild( img );
+			sendMsg("<img src='"+img.src+"'>");
+		};
+		reader.readAsDataURL( blob );
+	};
+	document.getElementById( 'content' ).addEventListener( 'paste', function( e ){
+		var clipboardData = e.clipboardData,
+			i = 0,
+			items, item, types;
+			
+		if( clipboardData ){
+			items = clipboardData.items;
+			
+			if( !items ){
+				return;
+			}
+			
+			item = items[0];
+			types = clipboardData.types || [];
+			
+			for( ; i < types.length; i++ ){
+				if( types[i] === 'Files' ){
+					item = items[i];
+					break;
+				}
+			}
+			
+			if( item && item.kind === 'file' && item.type.match(/^image\//i) ){
+				imgReader( item );
+			}
+		}
+	});
+}
+
+/**
+
+function sendCaputreFile(img){
+	var file0 = img;
+	var width = file0.width;
+	var file = new Bmob.File("Caputre.jpeg", file0);
+	file.save().then(function(obj) {
+		fileUrl = obj.url();
+
+		//聊天视图
+		//判断上传文件为图片
+		if(file._guessedType.indexOf("image")==0){
+			if(width > 274){
+				Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
+				).then(function(obj) {
+					//历史消息隐藏，显示原图，点击原图返回历史消息
+					sendMsg("<img onclick=showImg0('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
+				});
+			}else{
+				sendMsg("<img src='"+fileUrl+"'/>");
+			}
+		}else{
+			//上传文件原图片,target设定打开新标签
+			sendMsg("<a href='"+fileUrl+"' target='_blank'>"+name+"</a>");
+		}
+	
+	});
+}*/
