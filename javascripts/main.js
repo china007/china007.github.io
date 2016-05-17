@@ -569,7 +569,7 @@ function fileUpload() {
 				if(file._guessedType.indexOf("image")==0){
 					if(size > 15000){
 						//UPD 缩略图API取消？ START
-						sendMsg("<img src='"+fileUrl+"'/>");
+						sendMsg("<img style='width: 100px;' src='"+fileUrl+"'/>");
 						/*Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
 						).then(function(obj) {
 							// console.log("filename:"+obj.filename); 
