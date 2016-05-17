@@ -542,7 +542,7 @@ function fileUpload() {
 		var file0 = fileUploadControl.files[0];
 		var size = file0.size;
 		var name = array[array.length - 1];
-		var file = new Bmob.File(name, file0);     
+		var file = new Bmob.File2(name, file0);     
 		file.save().then(function(obj) {
 			fileUrl = obj.url();
 			
