@@ -568,7 +568,9 @@ function fileUpload() {
 				//判断上传文件为图片
 				if(file._guessedType.indexOf("image")==0){
 					if(size > 15000){
-						Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
+						//UPD 缩略图API取消？ START
+						sendMsg("<img src='"+fileUrl+"'/>");
+						/*Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
 						).then(function(obj) {
 							// console.log("filename:"+obj.filename); 
 							// console.log("url:"+obj.url); 
@@ -578,7 +580,8 @@ function fileUpload() {
 							//sendMsg("<img onclick=window.open('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
 							//历史消息隐藏，显示原图，点击原图返回历史消息
 							sendMsg("<img onclick=showImg0('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-						});
+						});*/
+						//UPD 缩略图API取消？ END
 					}else{
 						sendMsg("<img src='"+fileUrl+"'/>");
 					}
