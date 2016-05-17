@@ -42,7 +42,9 @@ userList["All"]={"name":"群聊","chatLastTime":"","unRead":"0"};
 getUserList();
 $(function() {
 
-	saveIp();
+        //DEL搜狐IP无法使用20160517 START
+	//saveIp();
+	//DEL搜狐IP无法使用20160517 END
 	$("#fileImg").click(function() {
 		var selectFile = document.getElementById("selectFile");
 		selectFile.click();
