@@ -353,7 +353,7 @@ function getMsg(senderId, sendToId, sendTime,sendContent){
 	if(compareDate(sendTime,userList[tabId].chatLastTime)){
 		p += '<span style="color:green;display:block;text-align:center">' + sendTime + '</span>';
 	}
-	if (!isEmptyObject(userList[senderId].img)) {
+	if (!isEmptyObject(userList[senderId]) && !isEmptyObject(userList[senderId].img)) {
 		p += '<div><img class="headImg '+senderId+'Img" onclick=showUserInfoView("'+senderId+'"); src="'+userList[senderId].img+'"';
 	}else{
 		p += '<div><img class="headImg" src="https://raw.githubusercontent.com/china007/china007.github.io/master/images/head/default.gif"';
@@ -542,7 +542,7 @@ function fileUpload() {
 		var file0 = fileUploadControl.files[0];
 		var size = file0.size;
 		var name = array[array.length - 1];
-		var file = new Bmob.File2(name, file0);     
+		var file = new Bmob.File(name, file0);     
 		file.save().then(function(obj) {
 			fileUrl = obj.url();
 			
@@ -569,8 +569,8 @@ function fileUpload() {
 				if(file._guessedType.indexOf("image")==0){
 					if(size > 15000){
 						//UPD 缩略图API取消？ START
-						sendMsg("<img style='width: 100px;' src='"+fileUrl+"'/>");
-						/*Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
+						//sendMsg("<img style='width: 100px;' src='"+fileUrl+"'/>");
+						Bmob.Image.thumbnail({"image":fileUrl,"mode":4,"quality":100,"width":100,"height":200}
 						).then(function(obj) {
 							// console.log("filename:"+obj.filename); 
 							// console.log("url:"+obj.url); 
@@ -580,7 +580,7 @@ function fileUpload() {
 							//sendMsg("<img onclick=window.open('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
 							//历史消息隐藏，显示原图，点击原图返回历史消息
 							sendMsg("<img onclick=showImg0('"+fileUrl+"') src='http://file.bmob.cn/"+obj.url+"'/>");
-						});*/
+						});
 						//UPD 缩略图API取消？ END
 					}else{
 						sendMsg("<img src='"+fileUrl+"'/>");
@@ -776,7 +776,8 @@ function getImgFromClip(){
 			img.src = e.target.result;
 			// $("#content")[0].html=img;
 			// document.body.appendChild( img );
-			sendMsg("<img src='"+img.src+"'>");
+			//sendCaputreFile(img);
+			sendMsg("<img width='200px' src='"+img.src+"'>");
 		};
 		reader.readAsDataURL( blob );
 	};
@@ -804,13 +805,15 @@ function getImgFromClip(){
 			
 			if( item && item.kind === 'file' && item.type.match(/^image\//i) ){
 				imgReader( item );
+			}else if(item.kind ==='file'){
+				
 			}
 		}
 	});
 }
 
-/**
 
+/*
 function sendCaputreFile(img){
 	var file0 = img;
 	var width = file0.width;
