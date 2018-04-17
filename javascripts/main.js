@@ -415,9 +415,8 @@ function notify(theBody,theIcon,theTitle){
 	  // want to be respectful there is no need to bother them any more.
 	} 
 if (Sys.chrome) {
-	// DEL 2018/04/17
 	//获取消息提醒权限
-	//Notification.requestPermission(); 
+	Notification.requestPermission(); 
 }
 function spawnNotification(theBody,theIcon,theTitle) {
 	  var options = {
