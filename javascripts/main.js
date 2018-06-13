@@ -42,9 +42,11 @@ userList["All"]={"name":"群聊","chatLastTime":"","unRead":"0"};
 getUserList();
 $(function() {
 
-        //DEL搜狐IP无法使用20160517 START
-	//saveIp();
+        //UPD搜狐IP恢复使用20180613 START
+	//DEL搜狐IP无法使用20160517 START
+	saveIp();
 	//DEL搜狐IP无法使用20160517 END
+	//UPD搜狐IP恢复使用20180613 END
 	$("#fileImg").click(function() {
 		var selectFile = document.getElementById("selectFile");
 		selectFile.click();
